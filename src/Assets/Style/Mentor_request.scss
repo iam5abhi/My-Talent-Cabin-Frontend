@@ -1,0 +1,105 @@
+$icon-size    : 70px;
+$border-radius: 0.5;//15% = 0.15, 50% = 0.50 etc.
+
+// Icon Colors
+$green        : #32eb4b;
+$orange       : rgb(255, 45, 45);
+
+// Text
+$white      :black;
+
+.icon1{
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: $icon-size;
+  height: $icon-size;
+  margin-left: $icon-size/5;
+  margin-right: $icon-size/5;
+  border-radius: $icon-size*$border-radius;
+  overflow: hidden;
+  &::before, &::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.25s ease;
+    border-radius: $icon-size*$border-radius;
+  }
+  i{
+    position: relative;
+    color: $green;
+    font-size: $icon-size/2;
+    margin-top: $icon-size/4;
+    transition: all 0.25s ease;
+  }
+  i:hover::before{
+    color: $green;
+  }
+}
+
+.icon2{
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: $icon-size;
+  height: $icon-size;
+  margin-left: $icon-size/5;
+  margin-right: $icon-size/5;
+  border-radius: $icon-size*$border-radius;
+  overflow: hidden;
+  &::before, &::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: all 0.25s ease;
+    border-radius: $icon-size*$border-radius;
+  }
+  i{
+    position: relative;
+    color:$orange;
+    font-size: $icon-size/2;
+    margin-top: $icon-size/4;
+    transition: all 0.25s ease;
+  }
+  i:hover::before{
+    color: $green;
+  }
+}
+
+.icon-fill:hover i {
+  color: #FFF
+}
+
+.icon-enter:hover i {
+  color: #FFF
+}
+
+.icon-fill{
+  &::before{
+    transition-duration: 0.5s;
+    box-shadow: inset 0 0 0 1px $green;
+  }
+  &:hover::before{
+    box-shadow: inset 0 0 0 $icon-size $green;
+  }
+}
+
+.icon-enter{
+  &::after{
+    box-shadow: inset 0 0 0 1px $orange;
+  }
+  &::before{
+    border-radius: 0;
+    margin-left: -100%;
+    box-shadow: inset 0 0 0 $icon-size $orange;
+  }
+  &:hover::before{
+    margin-left: 0;
+  }
+}
