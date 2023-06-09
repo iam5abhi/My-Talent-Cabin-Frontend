@@ -62,7 +62,6 @@ const Company = () => {
     
   return (
         <>
-         <AdminHeader />
             <div className="max-w-screen mx-auto mt-20">
                 <div className="container mx-auto">
                 <div>

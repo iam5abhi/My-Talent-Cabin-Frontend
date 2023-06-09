@@ -3,6 +3,10 @@ import { Breathing } from 'react-shimmer'
 import { Route,Routes,Navigate} from 'react-router-dom';
 import StudentHome from '../../Pages/Student/StudentHome';
 import PrivateRoute from '../../Middleware/Private Route/PrivateRoute'
+import Header from '../../Layouts/Header/Header';
+import Footer from '../../Layouts/Footer/Footer';
+import ViewProfile from '../../Pages/Student/profile/ViewProfile';
+import ChangePassword from '../../Pages/Change-Password/ChangePassword';
 
 const StudentRouting = () => {
 
@@ -11,10 +15,18 @@ const StudentRouting = () => {
             path: '/',
             component: StudentHome,
         },
+        {
+          path: 'profile',
+          component: ViewProfile,
+      },{
+        path: 'change-password',
+        component: ChangePassword,
+    }, 
     ]
 
   return (
         <>
+        <Header/>
         <Routes>
             {
               Student.map((route) => {
@@ -26,6 +38,7 @@ const StudentRouting = () => {
             }
             <Route path="*" element={ < Navigate to="/auth/student" />} ></Route>
         </Routes>
+        <Footer/>
     </>
   )
 }

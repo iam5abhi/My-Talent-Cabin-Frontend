@@ -69,10 +69,8 @@ const StudentList = () => {
         GetStudentData();
       },[])
     
-
   return (
         <>
-        <AdminHeader />
           <StatusData active={statusData.active.length} hold={statusData.hold.length} deactive={statusData.deactive.length} icon="fa-sharp fa-solid fa-user-graduate" />
             <div className="max-w-screen mx-auto mt-20">
                 <div className="container mx-auto">

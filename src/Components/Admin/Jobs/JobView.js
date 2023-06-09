@@ -88,7 +88,6 @@ const JobView = () => {
     
   return (
         <>
-        <AdminHeader />
         <div className="max-w-screen mx-auto mt-10">
           <div className="container mx-auto">
              <div>

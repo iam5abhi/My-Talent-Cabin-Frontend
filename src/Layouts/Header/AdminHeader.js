@@ -45,7 +45,6 @@ const AdminHeader = () => {
             navigate('/auth/admin/login')
         }, 1000);
     }
-
     return (
         <>
         {!AdminToken ? navigate('/auth/admin/login') :

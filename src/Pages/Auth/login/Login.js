@@ -1,9 +1,12 @@
 import React, { useState,useEffect } from 'react' 
 import {Field, Form, Formik } from 'formik';
+import {encode as base64_encode} from 'base-64';
 import { ToastContainer } from 'react-toastify';
 import '../../../App.css';
 import { NavLink,useNavigate } from 'react-router-dom';
 import validationSchema from './loginValidation';
+import { authFetch } from '../../../Middleware/axios/Interceptors';
+import { ToastError,ToastSucess } from '../../../features/DisplayMessage';
 
 
 const Login = () =>{
@@ -11,6 +14,7 @@ const Login = () =>{
   const [btndisabled,setBtnDisable]=useState(false)
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword,setShowPassword]=useState(false)
+  
   const eye_Password=()=>{
     if(!showPassword){
       setShowPassword(true)
@@ -38,8 +42,12 @@ return (
         initialValues={{ email:'',  password:'' }}
         validationSchema={validationSchema}
         onSubmit={async(values) => {
+          let encodedPassword = base64_encode(values.password);
           try {
-            const res = await authFetch.post('/student/login', values);
+            const res = await authFetch.post('/student/login', {
+              email:values.email,
+              password:encodedPassword
+            });
             localStorage.setItem('token', res.data.token, true)
             ToastSucess(res.data.message)
             setTimeout(() => {

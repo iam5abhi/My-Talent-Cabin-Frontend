@@ -3,6 +3,7 @@ import {Navigate, Route,Routes,} from 'react-router-dom'
 import AdminLogin from '../../Pages/Auth/Admin/login/AdminLogin';
 import AdminPrivateRoute from '../../Middleware/Private Route/AdminPrivateRoute'
 import { Breathing } from 'react-shimmer'
+import AdminHeader from '../../Layouts/Header/AdminHeader';
 
 const ViewJob = React.lazy(() => import('../../Components/Admin/Jobs/ViewJob'));
 const Home =React.lazy(() => import('../../Pages/Admin/Home/Home'));
@@ -58,10 +59,13 @@ const AdminRouting = () => {
 
   return (
         <>
+        <AdminHeader/>
             <Routes>
-                <Route path="login" element={ < AdminLogin />} />
+                {/* <Route path="login" element={ < AdminLogin />} /> */}
                 {
+
                   adminroutes.map((route) => (
+                    
                     <Route
                     path={route.path}
                     element={<React.Suspense fallback={<><Breathing width={1200} height={1000} /></>}>

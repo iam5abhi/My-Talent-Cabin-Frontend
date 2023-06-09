@@ -69,7 +69,6 @@ const Projects = () => {
   
   return (
         <>
-        <AdminHeader />
           {/* --------------All project----------------- */}
           <div className="max-w-screen mx-auto mt-10">
             <div className="container px-4 mx-auto">

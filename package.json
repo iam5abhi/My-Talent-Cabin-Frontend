@@ -8,6 +8,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.16",
+    "@material-tailwind/react": "^2.0.1",
     "@react-pdf/renderer": "^3.1.9",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -16,6 +17,7 @@
     "base-64": "^1.0.0",
     "bootstrap": "^5.2.3",
     "canvas-confetti": "^1.6.0",
+    "flowbite-react": "^0.4.7",
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
     "node-sass": "^8.0.0",

@@ -5,6 +5,7 @@ import { ToastError, ToastSucess } from '../../../features/DisplayMessage';
 import {Field, Form, Formik } from 'formik';
 import { authFetch } from '../../../Middleware/axios/intance';
 import validationSchema from './RegisterValidation'
+import {encode as base64_encode} from 'base-64';
 
 
 const Signup = () =>{
@@ -13,7 +14,7 @@ const Signup = () =>{
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword,setShowPassword]=useState(false)
   const [showConfirmpassowrd,setShowConfirmpassowrd]=useState(false)
-  
+
 const eye_Password=()=>{
   if(!showPassword){
     setShowPassword(true)
@@ -31,7 +32,7 @@ const eye_Confirmpassowrd=()=>{
 useEffect(() => {
   let login = window.localStorage.getItem('token');
   if(login){
-    navigate(`/profile/${window.localStorage.getItem('id')}`)
+    navigate(`/auth/student}`)
   }
 })
 return (
@@ -43,16 +44,18 @@ return (
       <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Register</h2>
     </div>
       <Formik
-      initialValues={{ name:'', email:'', PhoneNumber:'',  password:'',confirmpassword: '' }}
+      initialValues={{ name:'', email:'', PhoneNumber:'',  password:'',confirmPassword: '' }}
       validationSchema={validationSchema}
       onSubmit={async(values) => {
+        let encodedPassword = base64_encode(values.password);
+        let encodedconfirmpass = base64_encode(values.confirmPassword);
         try {
-          const res = await authFetch.post("/register",{
+          const res = await authFetch.post("/student/signup",{
             name:values.name,
             email:values.email,
             PhoneNumber:values.PhoneNumber,
-            password:values.password,
-            confirmpassword:values.confirmpassword,
+            password:encodedPassword,
+            confirmPassword:encodedconfirmpass,
           });
           ToastSucess(res.data.message);
           setTimeout(() => {
@@ -110,11 +113,11 @@ return (
         </div>
         <div className='password-eye'>
           <label htmlFor="password" className="sr-only">Confirm Password</label>
-          <Field id="confirm-password" name="confirmpassword"  type={!showConfirmpassowrd ? "password" : "text"} autoComplete="current-password" className={`relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm ${!errors.confirmpassword ? " " : "border-red-500"}`}
+          <Field id="confirm-password" name="confirmPassword"  type={!showConfirmpassowrd ? "password" : "text"} autoComplete="current-password" className={`relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm ${!errors.confirmpassword ? " " : "border-red-500"}`}
            placeholder="Confrm Password" />
            <span className="flex justify-end">{!showConfirmpassowrd ? <i onClick={eye_Confirmpassowrd} className="fa-sharp fa-solid fa-eye-slash"></i> : <i onClick={eye_Confirmpassowrd} className="fa-solid fa-eye"></i>}</span>
-          {errors.confirmpassword && touched.confirmpassword ? (
-            <div className='text-red-700 text-xs font-bold'>{errors.confirmpassword}</div>
+          {errors.confirmPassword && touched.confirmPassword ? (
+            <div className='text-red-700 text-xs font-bold'>{errors.confirmPassword}</div>
             ) : null}
         </div>
       </div>

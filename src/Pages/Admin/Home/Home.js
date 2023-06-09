@@ -37,7 +37,6 @@ const Home = () => {
 
   return (
         <>
-        <AdminHeader />
         <div className='container mt-10'>
         <div className='flex justify-around text-lg gap-20 px-10 ml-14'>
               <div className='bg-stone-100 px-6 w-full border border-stone-100 py-8 font-semibold flex justify-around gap-12 rounded shadow-2xl'>

@@ -80,7 +80,6 @@ const UploadProject = () => {
   }, [])
   return (
     <>
-    <AdminHeader />
       <div className="flex min-h-full items-center justify-center  px-4 sm:px-6 lg:px-8 ">
         <div className="w-full  space-y-8  rounded-lg px-5 py-5 ">
           <section className="border border-gray-200 rounded-lg px-4 py-10">

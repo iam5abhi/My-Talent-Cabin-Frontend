@@ -154,7 +154,6 @@ const Category = () => {
 
   return (
         <>
-        <AdminHeader />
           <div className="max-w-screen mx-auto mt-10 overflow-auto">
             <div className="container px-4 mx-auto">
             <div>

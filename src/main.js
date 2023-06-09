@@ -11,44 +11,33 @@ import jwtDecode from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 import ChangePassword from './Pages/Change-Password/ChangePassword';
 import Footer from './Layouts/Footer/Footer';
+import AdminHeader from './Layouts/Header/AdminHeader';
+import AdminLogin from './Pages/Auth/Admin/login/AdminLogin';
+import Test from './TestHandler/Test';
 
 const Main = () => {
   const location = useLocation()
-  const [decode,setDecode]=useState()
+  const [decode, setDecode] = useState()
 
-  useEffect(()=>{
-    if(Token()){
+  useEffect(() => {
+    if (Token()) {
       let decode = jwtDecode(Token())
       setDecode(decode)
     }
-  },[Token()])
-  
+  }, [Token()])
+
   return (
     <>
-      <div>{location.pathname.includes('/auth/admin')?null:
-        <Header /> }</div>
       <Routes>
         <Route path="/" element={< Home />} />
-        <Route path="/auth/admin/*" element={<AdminRouting />} />
-        <Route path="/auth/student/*" element={<StudentRouting />} />
-        {/* <Route path="/auth/enterprise/*" element={<EnterpriseRouting />} /> */}
         <Route path='/register' element={< Register />} />
         <Route path="login" element={< Login />} />
         <Route path="/change-password" element={<  ChangePassword />} />
-       
-        {!decode?null:decode.user.role=="student"?
-          <Route path="*" element={ < Navigate to="/auth/student" />} ></Route>
-          :decode.user.role=="mentor"?
-          <Route path="*" element={ < Navigate to="/auth/mentor" />} ></Route>
-          :decode.user.role=="campus"?
-          <Route path="*" element={ < Navigate to="/auth/campus" />} ></Route>
-          :decode.user.role=="enterprise"?
-          <Route path="*" element={ < Navigate to="/auth/enterprise" />} ></Route>
-          :null
-        }
+        <Route path="/auth/admin/login" element={<AdminLogin />} />
+        <Route path="/auth/admin/*" element={<AdminRouting />} />
+        <Route path="/auth/student/*" element={<StudentRouting />} />
+        <Route path="/Test" element={<Test />} />
       </Routes>
-      <div>{location.pathname.includes('/auth/admin')?null:
-        <Footer />}</div>
     </>
   )
 }

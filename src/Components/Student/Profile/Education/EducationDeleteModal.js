@@ -1,25 +1,25 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { authFetch } from "../../../../Middleware/axios/intance"
-import Message from '../../../../features/Message';
+import axios from 'axios';
 
-export default function EducationDelete({setOpen,open,id,GetProfileData}) {
+
+export default function EducationDeleteModal({setOpen,open,id,ProfileSubmit}) {
   const cancelButtonRef = useRef(null)
-  const [message,setMessage]=useState({message:'',type:''})
 
-const OnHoldAppointCancel = async ()=>{
-  try {
-    const resp = await authFetch.patch(`/api/student/delete-education?id=${id}`);
-    setMessage({message:resp.data.message,type:true})
-    setTimeout(() => {
+  const EducationDelete=()=>{
+    axios({
+      method:'delete',
+      url:`${"BaseUrl.url"}/delete-education?id=${id}`,
+      headers:{
+        'Authorization':`Bearer ${window.localStorage.getItem('token')}`
+      },
+    }).then((res)=>{
       setOpen(false)
-      GetProfileData()
-      setMessage({message:'',type:''})
-    },1000);
-  } catch (error) {
-    console.log(error)
-  }
-}
+      ProfileSubmit()
+    }).catch((err)=>{
+      console.log(err.message)
+    })
+    }
 
   return (
     <Transition.Root show={open} as={Fragment}>   
@@ -48,14 +48,13 @@ const OnHoldAppointCancel = async ()=>{
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
               <div className="max-w-screen mx-auto">
-                <div className="container mx-auto">
                   <div className="  bg-white border col-span-2">
                     <div className=" border-b border-gray-200 rounded">
                     
-                      <div className="grid grid-cols-2 bg-gray-400/25 shadow-lg">
+                      <div className="grid grid-cols-2 bg-gray-400/25 shadow-sm">
                         <div className="   p-2 ml-2 mt-2 ">
                         <Dialog.Title as="h2" className=" text-lg  font-semibold text-gray-600">
-                          Cancel Appointment
+                         Delete Education
                         </Dialog.Title>
                         </div>
                         <div className="text-sm text-end p-2 mr-2 mt-2">
@@ -69,17 +68,14 @@ const OnHoldAppointCancel = async ()=>{
                       <br />
                       <div className="my-4 mx-4">
                       <p className="  text-lg  font-semibold text-gray-600">
-                         Are u sure cancel this appointment?
-                        </p>
-                        <p className=" text-base  text-gray-400">
-                        If u delete the file you can't recover it
+                        Are u sure delete this education?
                         </p>
                       </div>                   
                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                       <button
                         type="button"
-                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                        onClick={() =>OnHoldAppointCancel()}
+                        className="deletebtn inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:mt-4 sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={() =>EducationDelete()}
                       >
                         Delete
                       </button>
@@ -91,14 +87,9 @@ const OnHoldAppointCancel = async ()=>{
                       >
                         Cancel
                       </button>
-                      
                     </div>
-                    {message.type !==''?
-                      <Message message={message.message} css='flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-gray-800 dark:text-red-400' />
-                    :null}
                 </div>
               </div>
-            </div>
            </div>
           </Dialog.Panel>
           </Transition.Child>
