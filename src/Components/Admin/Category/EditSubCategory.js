@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react';
 import { Fragment, useRef,useState} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { authFetch } from '../../../Middleware/axios/intance';
+import { authFetch } from '../../../Middleware/axios/Interceptors';
 import { ToastSucess, ToastError } from '../../../features/DisplayMessage';
 
 
@@ -17,7 +17,7 @@ export default function EditSubCategory({setOpen,open,GetSubCategoryData,id}) {
 
   const SubmitCategoryData = async ()=>{
     try {
-      const res = await authFetch.post(`admin/api/v1/subcategory/${id}`,{name:categoryData.title});
+      const res = await authFetch.patch(`/admin/subcategory/${id}`,{name:categoryData.title});
       ToastSucess("Edit Successfully")
       setTimeout(() => {
         setOpen(false)
@@ -30,7 +30,7 @@ export default function EditSubCategory({setOpen,open,GetSubCategoryData,id}) {
 
   const GetSingleCategoryData = async ()=>{
     try {
-      const res = await authFetch(`admin/api/v1/subcategory/${id}`);
+      const res = await authFetch(`/admin/subcategory/${id}`);
       setCategoryData({title:res.data.title})
       }catch (error) {
         ToastError(error)

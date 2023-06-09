@@ -11,6 +11,7 @@ import { authFetch } from '../../../Middleware/axios/Interceptors'
 import StatusData from '../../../Components/Admin/StatusDesgin/StatusData';
 import { ToastError } from '../../../features/DisplayMessage';
 import AdminHeader from '../../../Layouts/Header/AdminHeader';
+import { StatusHandler } from '../../../features/StatusHandler';
 
   
 
@@ -26,9 +27,9 @@ const StudentList = () => {
     const columns = [
         { name:  'Sr.', selector: (row,index) => index+1, width:"9rem"},
         { name: 'Name', selector: row => row.name, width:"15rem" },
-        { name: 'Mobile Number', selector: row => row.PhoneNumber, },
+        { name: 'Mobile Number', selector: row => row.PhoneNumber, },                     
         { name: 'Email', selector: row => row.email,},
-        { name: 'Status', selector: row => row.status === 'active' ? <span className='bg-green-100 p-2 px-4 rounded-full text-green-600'>Activate</span>:row.status === "onload" ?<span className='bg-yellow-100 p-2 px-4 rounded-full text-yellow-600'>OnHold</span>:<span className='bg-red-100 p-2 px-4 rounded-full text-red-600'>Deactivate</span>,},
+        { name: 'Status', selector: row => StatusHandler(row.status) },
         { name: 'Action', selector: row =><div><button onClick={()=>ViewHandleOpen(row._id)} type="button" className="px-4 ml-2 py-1 rounded-full focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300 font-medium  text-sm  mr-2 mb-2 dark:focus:ring-blue-800">
         <i className="fa-solid fa-eye" /></button >
         <button data-tooltip="Edit Student Detail" onClick={()=>JobEditOpen(row._id)} type="button" className="px-2 py-1 rounded-full focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-blue-300 font-medium text-sm  mr-2 mb-2">
@@ -57,9 +58,9 @@ const StudentList = () => {
         try {
         const res = await authFetch(`/admin/user`);
         setStudentData(res.data.data); 
-        let active = getfunction(res.data.data,'created')
-        let hold = getfunction(res.data.data,'onload') 
-        let deactive = getfunction(res.data.data,'terminate') 
+        let active = getfunction(res.data.data,'active')
+        let hold = getfunction(res.data.data,'onhold') 
+        let deactive = getfunction(res.data.data,'deactive') 
         setStatusData({active:active,hold:hold,deactive:deactive})
         } catch (error) { ToastError(error.data) }
     }

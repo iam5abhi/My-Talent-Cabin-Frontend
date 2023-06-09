@@ -7,7 +7,7 @@ import EditCategory from './EditCategory';
 import AddSubCategory from './AddSubCategory';
 import StatusSubCategory from './StatusSubCategory';
 import EditSubCategory from './EditSubCategory';
-import { authFetch } from '../../../Middleware/axios/intance';
+import { authFetch } from '../../../Middleware/axios/Interceptors';
 import { ToastError } from '../../../features/DisplayMessage';
 import { ToastContainer } from 'react-toastify';
 import AdminHeader from '../../../Layouts/Header/AdminHeader';
@@ -129,8 +129,8 @@ const Category = () => {
 
   const GetCategoryData = async ()=>{
     try {
-      const res = await authFetch('admin/api/v1/category');
-      setCategoryData(res.data)
+      const res = await authFetch('/admin/category');
+      setCategoryData(res.data.data)
       setPending(false) 
     } catch (error) { ToastError(error.message) }
   }
@@ -138,7 +138,7 @@ const Category = () => {
   const GetSubCategoryData = async ()=>{
     if(categoryId){
     try {
-      const res = await authFetch(`admin/api/v1/subcategory/${categoryId}`);
+      const res = await authFetch(`/admin/subcategory?id=${categoryId}`);
       setSubCategoryAllData(res.data)
     } catch (error) { ToastError(error.message) }
     }

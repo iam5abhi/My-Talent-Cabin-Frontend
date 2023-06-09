@@ -11,7 +11,7 @@ export default function StatusSubCategory({setOpen,open,id,GetSubCategoryData}) 
 
   const StatuSubmitHandler = async ()=> { 
       try {
-        const res = await authFetch.patch(`admin/api/v1/subcategory-status/${id}`,{status:status.status});
+        const res = await authFetch.patch(`/admin/subcategory-status/${id}`,{status:status.status});
         ToastSucess("Update Successfully")
         setTimeout(() => {
           setOpen(false)

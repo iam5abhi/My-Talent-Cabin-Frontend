@@ -2,7 +2,7 @@ import React from 'react';
 import { Fragment, useRef,useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useFormik } from 'formik';
-import { authFetch } from '../../../Middleware/axios/intance';
+import { authFetch } from '../../../Middleware/axios/Interceptors';
 import { ToastSucess, ToastError } from '../../../features/DisplayMessage';
 
 
@@ -21,7 +21,7 @@ export default function AddCategory({setOpen,open,GetCategoryData}) {
     onSubmit : async values => {
       setDisableBUtton(true)
       try {
-        const res = await authFetch.post("/admin/api/v1/category",{title:values.title});
+        const res = await authFetch.post("/admin/category",{title:values.title});
         ToastSucess("Add Successfully")
           setDisableBUtton(false)
           setTimeout(() => {

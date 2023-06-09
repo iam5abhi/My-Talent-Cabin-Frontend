@@ -7,7 +7,7 @@ import { Breathing } from 'react-shimmer'
 const ViewJob = React.lazy(() => import('../../Components/Admin/Jobs/ViewJob'));
 const Home =React.lazy(() => import('../../Pages/Admin/Home/Home'));
 const StudentList =React.lazy(() => import('../../Pages/Admin/Students/StudentList'));
-const HrsList =React.lazy(() => import('../../Pages/Admin/hrs/HrsList')); 
+const HrsList =React.lazy(() => import('../../Pages/Admin/Company/Company')); 
 const JobView =React.lazy(() => import('../../Components/Admin/Jobs/JobView')); 
 const Category=React.lazy(() => import('../../Components/Admin/Category/Category')); 
 const Projects=React.lazy(() => import('../../Pages/Admin/Internship/Projects'));  
@@ -43,7 +43,7 @@ const AdminRouting = () => {
       component:JobView
     },
     {
-      path:'hrslist',
+      path:'company',
       component:HrsList
     },
     {

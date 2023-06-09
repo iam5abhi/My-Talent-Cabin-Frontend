@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Fragment, useRef} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { authFetch } from '../../../Middleware/axios/intance'
@@ -9,16 +9,16 @@ export default function StudentViewModal ({setOpen,open,id}) {
   const cancelButtonRef = useRef(null)
   const [studentData,setStudentData]=useState()
 
-  const GetSingleDocterData = async ()=> {
-      try {
-      const res = await authFetch(`user/accounts/getSingleCandodateDetail/${id}`);
-      setStudentData(res.data.candidate);
-      } catch (error) { ToastError(error.data.message) }
-  }
+    const GetSingleDocterData = async ()=> {
+        try {
+        const res = await authFetch(`/admin/user/${id}`);
+        setStudentData(res.data.data)
+        } catch (error) { ToastError(error) }
+    }
 
-  React.useEffect(()=>{
-    GetSingleDocterData();
-  },[id])
+    useEffect(()=>{
+        GetSingleDocterData();
+    },[id])
 
   return (
     <Transition.Root show={open} as={Fragment}>   

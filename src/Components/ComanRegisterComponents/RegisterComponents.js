@@ -40,8 +40,7 @@ const RegisterComponents = ({formik,open,setOpen}) => {
                         <i onClick={() => setOpen(false)} className="fa-solid fa-xmark text-xs font-extrabold bg-gray-400 h-5 leading-5 w-5 z-50 rounded-full text-center text-white"></i>
                       </div>
                       <Dialog.Title as="h2" className=" text-xl text-center font-semibold">
-                        {location.pathname=="/auth/admin/mentors"?"Create Mentor Account":location.pathname=="/auth/admin/students"?"Create Student Account":
-                        location.pathname=="/auth/admin/enterprises"?"Create Enterprise Account":"Create Campus Account"} 
+                        {location.pathname=="/auth/admin/students"?"Create Student Account":"Create Company Account"} 
                       </Dialog.Title> 
                     <div className="overflow-auto">
                     <div className="container w-11/15 mx-auto px-3 bg-white rounded  ">

@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import { customStyles } from '../../../features/DataTable';
-import { authFetch } from '../../../Middleware/axios/intance';
+import { authFetch } from '../../../Middleware/axios/Interceptors';
 import { useNavigate } from 'react-router-dom';
 import { ToastError } from '../../../features/DisplayMessage';
 import { ToastContainer } from 'react-toastify';
@@ -16,17 +16,17 @@ const Projects = () => {
   const [ids,setIds]=useState()
 
   const columns = [
-    { name: 'Project Name', selector: row => row.title, width:"13rem"},
+    { name: 'Project Name', selector: row => row.title, width:"15rem"},
     // { name: 'Company Name', selector: row => row.userId.name,width:"11rem" },
-    { name: 'Posted', selector: row => "COMPANY", }, 
+    { name: 'Posted', selector: row => row.CompanyId.name, width:"11rem"}, 
     { name: 'Intership Type', selector: row => row.intershipType,},
-    { name: 'Price', selector: row => row.price,},
+    { name: 'Price', selector: row => row.price?row.price:"0$",},
     { name: 'Intership Week', selector: row => row.intershipWeek,},
     { name: 'Status', selector: row => row.status,},
     { name: 'Action', selector: row =><div>
     {/* <button type="button" data-tooltip="Copy Project" onClick={()=>navigate(`/auth/admin/copy-project/${row._id}`)} className="px-2 py-1 rounded-full focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-text-orange-600 font-medium mr-2 mb-2 text-sm"> */}
     {/* <i className="fa-solid fa-copy "></i></button> */}
-    <button type="button" data-tooltip="Edit Project"  onClick={()=>navigate(`/edit-internship/${row._id}`)} className="px-2 py-1 rounded-full focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-text-orange-600 font-medium mr-2 mb-2 text-sm">
+    <button type="button" data-tooltip="Edit Project"  onClick={()=>navigate(`/auth/admin/edit-internship/${row._id}`)} className="px-2 py-1 rounded-full focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-text-orange-600 font-medium mr-2 mb-2 text-sm">
     <i className="fa-solid fa-pen-to-square "></i></button>
     <button type="button" data-tooltip="Change Project Status" onClick={()=>StatusHandler(row._id)} className="px-2 py-1 rounded-full focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-text-orange-600 font-medium mr-2 mb-2 text-sm">
     <i className="fa-solid fa-check"></i></button>
@@ -43,7 +43,7 @@ const Projects = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-orange-500 focus:border-orange-500 block w-full p-3" placeholder='Search' />  &nbsp;
           </div>
           <div>
-          <button type="button" onClick={()=>navigate('/add-internship')} className="text-white text-lg bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:ring-orange-300 rounded-full px-4 py-2">
+          <button type="button" onClick={()=>navigate('/auth/admin/add-internship')} className="text-white text-lg bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:ring-orange-300 rounded-full px-4 py-2">
             <i class="fa-solid fa-plus"></i> Add Internship</button>
           </div>
       </div>
@@ -58,7 +58,7 @@ const Projects = () => {
 
   const GetCategoryData = async ()=>{
     try {
-      const resp = await authFetch(`admin/api/v1/intership`);
+      const resp = await authFetch(`/admin/intership`);
       setCategoryData(resp.data)
     } catch (error) { ToastError(error) }
   }
@@ -88,8 +88,7 @@ const Projects = () => {
                       else if (item.title.toLowerCase().includes(searchText.toLowerCase())){return item;}
                       // else if (item.email.toLowerCase().includes(searchText.toLowerCase())){return item;}  
                     })}
-                    customStyles={customStyles}
-                    pagination 
+                    customStyles={customStyles} 
                   />
                 </div>
             </div>
@@ -97,6 +96,7 @@ const Projects = () => {
           </div>
           < StatusInternship setOpen={setStatusOpen} open={statusOpen} id={ids} GetCategoryData={GetCategoryData} />
           <ToastContainer />
+          
     </>
   )
 }

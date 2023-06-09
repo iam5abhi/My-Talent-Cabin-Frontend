@@ -1,12 +1,9 @@
 import React, { useState,useEffect } from 'react' 
 import {Field, Form, Formik } from 'formik';
 import { ToastContainer } from 'react-toastify';
-import { ToastError, ToastSucess } from '../../../features/DisplayMessage';
 import '../../../App.css';
 import { NavLink,useNavigate } from 'react-router-dom';
 import validationSchema from './loginValidation';
-
-
 
 
 const Login = () =>{
@@ -22,14 +19,13 @@ const Login = () =>{
     }
   }
 
-  
-
   useEffect(() => {
     let login = localStorage.getItem('token');
     if(login){
-      navigate(`/profile/${window.localStorage.getItem('id')}`)
+      navigate(`/auth/student`)
     }
   })
+
 return (
   <>
    {/* ------------------------------------registeration form */}
@@ -39,10 +35,19 @@ return (
       <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Login</h2>
     </div>
       <Formik
-      initialValues={{ email:'',  password:'' }}
-      validationSchema={validationSchema}
-      onSubmit={async(values) => {
-        
+        initialValues={{ email:'',  password:'' }}
+        validationSchema={validationSchema}
+        onSubmit={async(values) => {
+          try {
+            const res = await authFetch.post('/student/login', values);
+            localStorage.setItem('token', res.data.token, true)
+            ToastSucess(res.data.message)
+            setTimeout(() => {
+              navigate('/auth/student')
+            }, 2000);
+          } catch (error) {
+            ToastError(error.data.message)
+          }
         }}
       >
       {({ errors, touched }) => (

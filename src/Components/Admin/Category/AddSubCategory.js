@@ -11,7 +11,7 @@ export default function AddSubCategory({setOpen,open,GetCategoryData,id,subCateg
 
   const SubmitSubCateHandler = async ()=>{
     try {
-      const res = await authFetch.post('admin/api/v1/subcategory',{categoryId:id, name:inputCate});
+      const res = await authFetch.post('/admin/subcategory',{categoryId:id, name:inputCate});
         ToastSucess(res.data.message)
         setOpen(false)
         GetCategoryData()

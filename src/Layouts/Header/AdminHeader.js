@@ -16,8 +16,8 @@ const AdminHeader = () => {
             name: "Students",
             to: "/auth/admin/students"
         }, {
-            name: "Human Resource",
-            to: "/auth/admin/hrslist"
+            name: "Company",
+            to: "/auth/admin/company"
         }, {
             name: "Jobs",
             to: "/auth/admin/job-view"
@@ -103,4 +103,4 @@ const AdminHeader = () => {
     )
 }
 
-export default AdminHeader;
+export default React.memo(AdminHeader);

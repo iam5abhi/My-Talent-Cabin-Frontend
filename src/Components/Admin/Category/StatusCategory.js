@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { authFetch } from '../../../Middleware/axios/intance';
+import { authFetch } from '../../../Middleware/axios/Interceptors';
 import { ToastSucess, ToastError } from '../../../features/DisplayMessage';
 
 
@@ -12,7 +12,7 @@ export default function StatusCategory({setOpen,open,id,GetCategoryData}) {
 
   const StatuSubmitHandler = async ()=> {  
       try {
-        const res = await authFetch.patch(`admin/api/v1/category-status/${id}`,{status:status.status});
+        const res = await authFetch.patch(`/admin/category-status/${id}`,{status:status.status});
         ToastSucess("Update Successfully")
         setTimeout(() => {
           setOpen(false)

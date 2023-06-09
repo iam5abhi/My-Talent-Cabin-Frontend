@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ToastError, ToastSucess } from '../../../features/DisplayMessage';
 import { useNavigate } from 'react-router-dom';
-import { authFetch } from '../../../Middleware/axios/intance';
+import { authFetch } from '../../../Middleware/axios/Interceptors';
+import AdminHeader from '../../../Layouts/Header/AdminHeader';
 
 
 
@@ -48,21 +49,21 @@ const UploadProject = () => {
 
   const GetCompanyData = async ()=> {
     try {
-      const resp = await authFetch('company/accounts/api/v1/all-company-registerd-data');
+      const resp = await authFetch('/admin/company');
       setCompanyData(resp.data.data);
     } catch (error) { ToastError(error) }
   }
 
   const GetCategoryData = async () => {
       try {
-        const resp = await authFetch('admin/api/v1/subcategory');
-        setCategoryData(resp.data);
+        const resp = await authFetch('/admin/subcategory-data');
+        setCategoryData(resp.data.data);
       } catch (error) { ToastError(error) }
   }
 
   const FormSubmitHandler = async () => {
     try {
-      const resp = await authFetch('admin/api/v1/intership', {CompanyId:formData.companyId, title:formData.title,
+      const resp = await authFetch.post('/admin/intership', {CompanyId:formData.companyId, title:formData.title,
         description:formData.description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
         price:formData.price, tags:subCategoryData
       });
@@ -79,6 +80,7 @@ const UploadProject = () => {
   }, [])
   return (
     <>
+    <AdminHeader />
       <div className="flex min-h-full items-center justify-center  px-4 sm:px-6 lg:px-8 ">
         <div className="w-full  space-y-8  rounded-lg px-5 py-5 ">
           <section className="border border-gray-200 rounded-lg px-4 py-10">

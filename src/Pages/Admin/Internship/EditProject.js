@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { authFetch } from '../../../Middleware/axios/intance';
+import { authFetch } from '../../../Middleware/axios/Interceptors';
 import { ToastError, ToastSucess } from '../../../features/DisplayMessage';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { ToastContainer } from 'react-toastify';
 
 
 const EditProject = () => {
@@ -49,36 +49,37 @@ const EditProject = () => {
 
   const GetCompanyData = async ()=> {
     try {
-      const res = await authFetch('company/accounts/api/v1/all-company-registerd-data');
+      const res = await authFetch('/admin/company');
         setCompanyData(res.data.data);
       } catch (error) { ToastError(error.data.message) }
   }
 
   const GetCategoryData = async () => {
     try {
-      const res = await authFetch('admin/api/v1/subcategory');
-        setCategoryData(res.data)
+      const res = await authFetch('/admin/subcategory-data');
+        setCategoryData(res.data.data)
       } catch (error) { ToastError(error.data.message) }
   }
 
   const FormSubmitHandler = async () => {
     try {
-      const res = await authFetch.post('admin/api/v1/intership', {CompanyId:formData.companyId, title:formData.title,
+      const res = await authFetch.patch(`/admin/intership/${id}`, {CompanyId:formData.companyId, title:formData.title,
         description:formData.description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
         price:formData.price, tags:subCategoryData
       });
-      ToastSucess(res.data.message)
+      ToastSucess("Edit Successfully")
       setTimeout(() => {
-        navigate('/auth/admin/projects')
+        navigate('/auth/admin/internship')
       }, 1000)
       } catch (error) { ToastError(error.data.message) }
   }
 
   const GetInternshipData = async () => {
       try {
-      const resp = await authFetch(`admin/api/v1/intership/${id}`);
-        setFormData({companyId:resp.data.CompanyId, title:resp.data.title, description:resp.data.description, intershipType:resp.data.intershipType,price:resp.data.price,weeks:resp.data.intershipWeek})
-        setSubCategoryData(resp.data.tags)
+      const resp = await authFetch(`/admin/intership/${id}`);
+        setFormData({companyId:resp.data.CompanyId._id, title:resp.data.title, description:resp.data.description, intershipType:resp.data.intershipType,price:resp.data.price,weeks:resp.data.intershipWeek})
+        let data = resp.data.tags.map(data=>{ return {id:data._id._id,name:data._id.name}} )
+        setSubCategoryData(data)          
       } catch (error) { ToastError(error.data.message) }
   }
 
@@ -181,6 +182,7 @@ const EditProject = () => {
           </section>
         </div>
       </div>
+      <ToastContainer />
     </>
   )
 }

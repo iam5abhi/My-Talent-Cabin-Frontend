@@ -6,13 +6,13 @@ import ReactPlayer from 'react-player'
 import { ToastError } from '../../../features/DisplayMessage'
 
 
-export default function HrsViewModal ({setOpen,open,id}) {
+export default function CompanyViewModal ({setOpen,open,id}) {
   const cancelButtonRef = useRef(null)
   const [hrsData,setHrsData]=useState()
 
   const GetSingleDocterData =async ()=> {
       try {
-        const res = await authFetch('company/accounts/api/v1/get-company-detail/${id}');
+        const res = await authFetch(`/admin/company/${id}`);
         setHrsData(res.data.data);
         } catch (error) { ToastError(error.data.message) }
   }

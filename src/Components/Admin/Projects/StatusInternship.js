@@ -12,7 +12,7 @@ export default function StatusInternship({setOpen,open,id,GetCategoryData}) {
 
   const StatuSubmitHandler = async ()=> { 
     try {
-      const resp = await authFetch.patch(`admin/api/v1/intership-status/${id}`,{status:status.status});
+      const resp = await authFetch.patch(`/admin/intership-status/${id}`,{status:status.status});
         ToastSucess("Update Successfully")
         setTimeout(() => {
           setOpen(false)
