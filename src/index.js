@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import 'font-awesome/css/font-awesome.min.css'
+import 'leaflet/dist/leaflet.css'
 import App from './App';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter } from 'react-router-dom';

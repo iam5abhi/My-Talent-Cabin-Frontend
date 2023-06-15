@@ -2,19 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { ToastError, ToastSucess } from '../../../features/DisplayMessage';
 import { useNavigate } from 'react-router-dom';
 import { authFetch } from '../../../Middleware/axios/Interceptors';
-import AdminHeader from '../../../Layouts/Header/AdminHeader';
-
-
 
 const UploadProject = () => {
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({ companyId: "", title: "", description: "", intershipType: "",price:'',weeks:''})
+  const [formData, setFormData] = useState({ companyId: "", mentorId: "", title: "", description: "", intershipType: "",price:'',weeks:''})
   const [categoryData, setCategoryData] = useState()
   const [newCategoryData, setNewCategoryData] = useState()
   const [subCategoryData, setSubCategoryData] = useState([])
   const [keyword, setKeyword] = useState();
   const [companyData, setCompanyData] = useState()
-
+  const [mentorData, setMentorData] = useState()
 
   const UpdateKeyword = (e) => {
     const filtered = categoryData.filter((data) => {
@@ -61,9 +58,16 @@ const UploadProject = () => {
       } catch (error) { ToastError(error) }
   }
 
+  const GetMentorData = async () => {
+    try {
+      const resp = await authFetch('/admin/mentor');
+      setMentorData(resp.data.data);
+    } catch (error) { ToastError(error) }
+  }
+
   const FormSubmitHandler = async () => {
     try {
-      const resp = await authFetch.post('/admin/intership', {CompanyId:formData.companyId, title:formData.title,
+      const resp = await authFetch.post('/admin/intership', {mentorId:formData.mentorId, CompanyId:formData.companyId, title:formData.title,
         description:formData.description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
         price:formData.price, tags:subCategoryData
       });
@@ -77,6 +81,7 @@ const UploadProject = () => {
   useEffect(() => {
     GetCategoryData()
     GetCompanyData()
+    GetMentorData()
   }, [])
   return (
     <>
@@ -160,11 +165,20 @@ const UploadProject = () => {
               <textarea id="message" onChange={FormOnChangeHandler} name='description' rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 " placeholder="Write your project description here..." defaultValue={""} />
             </div>
             <br />
-            <div>
-              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select an option</label>
+            <div className='mb-3'>
+              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select Company</label>
               <select id="countries" onChange={FormOnChangeHandler} name='companyId' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected>Choose a Company</option>
                 {!companyData ? null : companyData.map((data, index) => {
+                  return <option value={data._id}>{data.name}</option>
+                })}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select Mentor</label>
+              <select id="countries" onChange={FormOnChangeHandler} name='mentorId' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option selected>Choose a Mentor</option>
+                {!mentorData ? null : mentorData.map((data, index) => {
                   return <option value={data._id}>{data.name}</option>
                 })}
               </select>

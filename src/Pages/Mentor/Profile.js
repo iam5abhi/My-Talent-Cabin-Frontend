@@ -1,69 +1,72 @@
-import React,{useEffect} from 'react';
-import { Route,Routes,useNavigate,useLocation} from 'react-router-dom';
-import PrivateRoute from '../../Middleware/Private Route/PrivateRoute';
-import { Breathing } from 'react-shimmer';
-import PersonalInformation from "../../Components/Mentor/Profile/PersonalInformation"; 
-import Education from "../../Components/Mentor/Profile/Education"; 
-import Specialization from "../../Components/Mentor/Profile/Specialization"; 
-import Copyright from "../../Components/Mentor/Profile/Copyright"
-import Sidebar from "../../Components/Mentor/Profile/Sidebar"
-import ProfilePicture from '../../Components/Mentor/Profile/ProfilePicture';
+import React from 'react'
+import Username_image from '../../Components/Mentor/Profile/user information/Username_image'
+import Language from '../../Components/Mentor/Profile/Language/Language';
+import Bio from '../../Components/Mentor/Profile/Bio/Bio';
+import Skill from '../../Components/Mentor/Profile/Skill/Skill';
+import Experience_Certificate from '../../Components/Mentor/Profile/Experience/Experience_Certificate';
+import {useNavigate } from 'react-router-dom'
+import jwt_decode from "jwt-decode";
+import { authFetch } from '../../Middleware/axios/Interceptors';
+import { ToastError } from '../../features/DisplayMessage';
+import { ToastContainer } from 'react-toastify';
 
 const Profile = () => {
-    const loction = useLocation()
-    const navigate = useNavigate()
-    
-    useEffect(() => {
-       if(loction.pathname=="/auth/mentor/profile"){
-        navigate('profile-picture')
-       }
-    })
-    
+  const token = window.localStorage.getItem('mentor-token')
+  const navigate = useNavigate();
+  const [getData,setGetData]=React.useState()
+
+  const ProfileSubmit =async()=> {
+    try {
+      const res = await authFetch('/mentor');
+      const profileData = res.data.reduce((acc, curr) => {
+        acc["data"] = curr;
+        return acc;
+      }, {});
+      setGetData(profileData.data)
+      } catch (error) { ToastError(error.data.message) }
+  }
+
+  var jwtoken = window.localStorage.getItem('mentor-token');
+  if (jwtoken) {
+  var decoded = jwt_decode(jwtoken);
+  if (decoded.exp * 1000 < Date.now()) {
+      window.localStorage.removeItem('mentor-token')
+      window.localStorage.removeItem('id')
+      navigate('/login')
+  }}
+
+  React.useEffect(()=>{
+    ProfileSubmit();
+  },[window.localStorage.getItem('mentor-token')])
+
   return (
-        <>
-        <div>
-        {/*------------------------------------First Section*/}
-        <div className="bg-white shadow-md p-4 w-[90%] mx-auto my-8 rounded">
-            <h2 className="text-xl font-bold mb-4">Complete Your Profile</h2>
-            <p>To successfully register your profile as an Expert and to you availablein search results:</p>
-            <p>1. Profile needs to be at least 80% completed</p>
-            <p>2. You have to complete at least one verification step (we prefer you verify a bank account).
-            <a href="#" className="learn text-orange-500 font-medium">Learn Why</a>
-            </p>
-        </div>
-        {/*---------------------------------------------------2nd main section*/}
-        <div className="lg:flex gap-x-4 w-[90%] mx-auto">
-            <Sidebar />
-            {/*---------right---------*/}
-            {/* <Routes path="/auth/student/NewNav"> */}
-            <Routes >
-            <Route path='personal-information' element={<React.Suspense fallback={<><Breathing width={1200} height={1000} /></>}>
-                        <PrivateRoute>
-                          <PersonalInformation />
-                        </PrivateRoute>
-                  </React.Suspense>}/>
-                  <Route path='education' element={<React.Suspense fallback={<><Breathing width={1200} height={1000} /></>}>
-                        <PrivateRoute>
-                          <Education />
-                        </PrivateRoute>
-                  </React.Suspense>}/>
-                  <Route path='specialization' element={<React.Suspense fallback={<><Breathing width={1200} height={1000} /></>}>
-                        <PrivateRoute>
-                          <Specialization />
-                        </PrivateRoute>
-                  </React.Suspense>}/>
-                  <Route path='profile-picture' element={<React.Suspense fallback={<><Breathing width={1200} height={1000} /></>}>
-                        <PrivateRoute>
-                          <ProfilePicture />
-                        </PrivateRoute>
-                  </React.Suspense>}/>
-            </Routes>      
-            {/*--------Right END-----------*/}
-        </div>
-        {/*-------------------------------------------3rd section*/}
-        </div>
+    <>
+    {!token?navigate('/mentor-login'):
+    <div className="bg-blue-100 py-8">
+    {/* <!--------------------------profile-->  */}
+    <Username_image data={getData} ProfileSubmit={ProfileSubmit} />
+  <div>
+    <div className="container w-11/15 mx-auto p-4 mt-4 border border-slate-300 bg-white rounded ">
+    <div className=" grid grid-cols-3 gap-2 border-r">
+    <Language data={getData?getData.language:null} ProfileSubmit={ProfileSubmit} />
+    <Bio data={getData?getData.bio:null} ProfileSubmit={ProfileSubmit} />
+    </div>
+      <br />
+      {/*------------------------------------------------------------ROW1*/}
+      {/*------------------------------------------------------------ROW2*/}
+      <div className=" grid grid-cols-3 gap-4 border-r">
+      <Skill data={getData?getData.myskill:null} ProfileSubmit={ProfileSubmit} />
+      <Experience_Certificate data={getData?getData.experience:null} ProfileSubmit={ProfileSubmit} />
+      </div>
+      <hr />
+      <br />
+      <br />
+    </div>
+  </div>
+  </div>
+  }   
+  <ToastContainer />
     </>
   )
 }
-
-export default Profile;
+export default Profile

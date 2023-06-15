@@ -125,19 +125,19 @@ function ProfileMenu() {
 const navListItems = [
   {
     label: "Dashboard",
-    to: "/auth/admin",
+    to: "/auth/student",
     icon: HomeIcon,
   },
   {
     label: "Students",
-    to: "/auth/admin/students",
+    to: "/auth/student/students",
     icon: CubeTransparentIcon,
   },
-  // {
-  //     label: "Company",
-  //     to: "/auth/admin/company",
-  //     icon: CodeBracketSquareIcon,
-  // },
+  {
+      label: "Internship",
+      to: "/auth/student/internship",
+      icon: CodeBracketSquareIcon,
+  },
   // {
   //     label: "Jobs",
   //     to: "/auth/admin/job-view",
@@ -159,13 +159,13 @@ const navListItems = [
 function NavList() {
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
-      {navListItems.map(({ label, icon }, key) => (
+      {navListItems.map(({ label, icon,to }, key) => (
         <Typography
           key={label}
           as={NavLink}
-          to="/"
+          to={to}
           variant="small"
-          color="blue-gray"
+          color="gray"
           className="font-normal"
         >
           <MenuItem className="flex items-center gap-2 lg:rounded-full">

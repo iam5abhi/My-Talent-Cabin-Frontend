@@ -1,39 +1,22 @@
 import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify';
+import { Dialog, Transition } from '@headlessui/react';
+import { ToastError, ToastSucess } from '../../../../features/DisplayMessage';
+import { authFetch } from '../../../../Middleware/axios/Interceptors';
 
 export default function BioModal({open,setOpen,data,ProfileSubmit}) {
   const cancelButtonRef = useRef(null)
   const [bioData,setBioData]=useState()
+  
 
-const BioSubmit =()=> {
-  axios({
-    method: 'PATCH',
-    url: `${"BaseUrl.url"}/add-bio`,
-    headers:{
-      'Authorization':`Bearer ${window.localStorage.getItem('token')}`
-    },
-    data:{
-      bio:bioData,
-    }
-  }).then((res)=>{
-    ProfileSubmit()
-    setOpen(false)
-  })
-  .catch((err)=>{
-    toast.error(err.response.data.message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme:'colored'
-      });
-  })
-}
+  const BioSubmit =async(event)=> {
+    event.preventDefault()
+    try {
+      const res = await authFetch.patch('/student/add-bio',{bio:bioData});
+      setOpen(false)
+      ProfileSubmit()
+      ToastSucess("Add Bio Successfully");
+      } catch (error) { ToastError(error.data.message) }
+  }
 
   return (
     <Transition.Root show={open} as={Fragment}>   
@@ -76,11 +59,11 @@ const BioSubmit =()=> {
                         </div>
                       </div>
                       <br />
-                      <div>
+                      <form onSubmit={BioSubmit}>
                         <textarea id="message" onChange={(event)=>setBioData(event.target.value)} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >{!data?null:data}</textarea>
                         <br />
-                        <button type="button" onClick={BioSubmit} className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Save</button>
-                    </div>
+                        <button type="submit" onClick={BioSubmit} className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Save</button>
+                      </form>
                 </div>
               </div>
             </div>

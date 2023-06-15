@@ -1,12 +1,11 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { v4 as uuid } from 'uuid';
-import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastError, ToastSucess } from '../../../../features/DisplayMessage';
+import { authFetch } from '../../../../Middleware/axios/intance';
 
 export default function EducationModal({open,setOpen,ProfileSubmit}) {
   const cancelButtonRef = useRef(null)
-  const [educationData,setEducationData]=useState({ id:uuid(), degreeName:'', collegeName:'', startDate:'', endDate:''})
+  const [educationData,setEducationData]=useState({ degreeName:'', collegeName:'', startDate:'', endDate:''})
 
   const EducationHandler =(e)=>{
     setEducationData((pre)=>({
@@ -15,30 +14,14 @@ export default function EducationModal({open,setOpen,ProfileSubmit}) {
   }))
   }
 
-  const EducationSubmit =()=> {
-    axios({
-      method: 'patch',
-      url: `${"BaseUrl.url"}/add-education`,
-      headers:{
-        'Authorization':`Bearer ${window.localStorage.getItem('token')}`
-      },
-      data:educationData
-    }).then((res)=>{
-      ProfileSubmit()
+  const EducationSubmit =async(event)=> {
+    event.preventDefault()
+    try {
+      const res = await authFetch.patch('/student/add-education',{education:educationData});
       setOpen(false)
-    })
-    .catch((err)=>{
-      toast.error(err.response.data.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme:'colored'
-        });
-    })
+      ProfileSubmit()
+      ToastSucess("Add Education Successfully");
+      } catch (error) { ToastError(error.data.message) }
   }
 
   return (
@@ -75,7 +58,7 @@ export default function EducationModal({open,setOpen,ProfileSubmit}) {
                       <div className="container w-11/15 mx-auto ">
                       <div className="flex min-h-full items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
                         <div className="w-full max-w-md space-y-8">
-                         <form className="space-y-4">
+                         <form onSubmit={EducationSubmit} className="space-y-4">
                           <div>
                             <label htmlFor="large" className="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Add Degree</label>
                             <select id="large" onChange={EducationHandler} name="degreeName" className="block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -111,7 +94,7 @@ export default function EducationModal({open,setOpen,ProfileSubmit}) {
                               <input type="month" id="last_name" name="endDate" onChange={EducationHandler} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" required />
                             </div>
                           </div>
-                          <button type="button" onClick={EducationSubmit} className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Submit</button>
+                          <button type="submit" className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Submit</button>
                         </form></div>
                       <div>
                       </div>

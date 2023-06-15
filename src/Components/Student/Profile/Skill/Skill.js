@@ -39,7 +39,7 @@ const Skill = ({data,ProfileSubmit}) => {
                 <ul className="list-none font-normal  text-base text-black" >
                 <li className="rounded-full  text-center bg-blue-100 text-blue-800 my-2">
                   <span><a href className>
-                    {skill.skills}</a></span>
+                    {skill.name}</a></span>
                   </li>
                 </ul>
                 </div>

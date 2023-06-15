@@ -1,24 +1,19 @@
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import axios from 'axios';
+import { ToastError, ToastSucess } from '../../../../features/DisplayMessage'
+import { authFetch } from '../../../../Middleware/axios/intance'
 
 
 export default function LanguageDeleteModal({setOpen,open,id,ProfileSubmit}) {
   const cancelButtonRef = useRef(null)
 
-  const LanguageDelete=()=>{
-    axios({
-      method:'delete',
-      url:`${"BaseUrl.url"}/delete-lang?id=${id}`,
-      headers:{
-        'Authorization':`Bearer ${window.localStorage.getItem('token')}`
-      },
-    }).then((res)=>{
+  const LanguageDelete=async()=>{
+    try {
+      const res = await authFetch.patch('/student/delete-language',{value:id});
       setOpen(false)
       ProfileSubmit()
-    }).catch((err)=>{
-      console.log(err.message)
-    })
+      ToastSucess("Delete Language Successfully");
+      } catch (error) { ToastError(error.data.message) }
     }
 
   return (
@@ -81,7 +76,7 @@ export default function LanguageDeleteModal({setOpen,open,id,ProfileSubmit}) {
                       </button>
                       <button
                         type="button"
-                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-4 sm:ml-3 sm:w-auto sm:text-sm"
                         onClick={() => setOpen(false)}
                         ref={cancelButtonRef}
                       >

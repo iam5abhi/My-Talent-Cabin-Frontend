@@ -14,6 +14,7 @@ const Category=React.lazy(() => import('../../Components/Admin/Category/Category
 const Projects=React.lazy(() => import('../../Pages/Admin/Internship/Projects'));  
 const UploadProject=React.lazy(() => import('../../Pages/Admin/Internship/UploadProject'));  
 const EditProject=React.lazy(() => import('../../Pages/Admin/Internship/EditProject'));
+const Mentors=React.lazy(() => import('../../Pages/Admin/Mentors/Mentors'));
 
 
 const AdminRouting = () => {
@@ -46,6 +47,10 @@ const AdminRouting = () => {
     {
       path:'company',
       component:HrsList
+    },
+    {
+      path:'mentors',
+      component:Mentors
     },
     {
       path:'students',

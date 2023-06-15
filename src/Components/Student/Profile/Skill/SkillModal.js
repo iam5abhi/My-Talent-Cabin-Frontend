@@ -1,45 +1,31 @@
 import * as React from 'react';
 import { Fragment, useRef, useState ,useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { v4 as uuid } from 'uuid';
-import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify';
 import {authFetch} from '../../../../Middleware/axios/Interceptors'
-import {ToastError} from '../../../../features/DisplayMessage'
+import {ToastError, ToastSucess} from '../../../../features/DisplayMessage'
 
 
 export default function SkillModal({open,setOpen,ProfileSubmit}) {
   const cancelButtonRef = useRef(null)
   const [subCategoryAllData,setSubCategoryAllData]=useState([])
+  const [skillData,setSkillData]=useState([])
 
-  const skillsHandler =(event)=>{
-  
+  const skillsHandler =(id)=>{
+    if(skillData.includes(id)){
+      let findIndex = skillData.indexOf(id)
+                      skillData.splice(findIndex,1)
+    }else{
+      setSkillData([...skillData,id])
+    }
   }
 
-  const skillsSubmitHandler =()=> {
-    axios({
-      method: 'patch',
-      url: `${"BaseUrl.url"}/add-skills`,
-      headers:{
-        'Authorization':`Bearer ${window.localStorage.getItem('token')}`
-      },
-      data:"skills_arr"
-    }).then((res)=>{
+  const skillsSubmitHandler =async()=> {
+    try {
+      const res = await authFetch.patch('/student/add-skill',{skills:skillData});
       setOpen(false)
       ProfileSubmit()
-    })
-    .catch((err)=>{
-      toast.error(err.response.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme:'colored'
-        });
-    })
+      ToastSucess("Add Skills Successfully");
+      } catch (error) { ToastError(error.data.message) }
   }
 
   const GetSubCategoryData = async ()=>{
@@ -92,9 +78,9 @@ export default function SkillModal({open,setOpen,ProfileSubmit}) {
                       <ul className="overflow-y-auto px-3 pb-3 h-48 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
                       {subCategoryAllData.map((skill)=>{
                       return(
-                        <li key={skill.id}>
+                        <li key={skill._id}>
                           <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                            <input id={skill._id} onChange={(e)=>skillsHandler(e)} type="checkbox" defaultValue className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                            <input onChange={()=>skillsHandler(skill._id)} type="checkbox" defaultValue className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                             <label htmlFor="checkbox-item-11" className="py-2 ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">{skill.name}</label>
                           </div>
                         </li>
@@ -102,7 +88,6 @@ export default function SkillModal({open,setOpen,ProfileSubmit}) {
                       </ul> 
                     </div>
                     <button type="button" onClick={skillsSubmitHandler} className="ml-5 mt-2 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Save</button>
-                    <ToastContainer />
                     </div>
                 </div>
             </div>

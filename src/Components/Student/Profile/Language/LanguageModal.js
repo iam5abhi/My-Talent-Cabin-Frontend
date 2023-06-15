@@ -1,55 +1,29 @@
 import * as React from 'react';
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { v4 as uuid } from 'uuid';
-import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify';
-
-const languages = [{language:'English', id:uuid(),value:"false"},
-{language:'Hindi', id:uuid(),value:"false"},
-{language:'Punjabi', id:uuid(),value:"false"}]
+import { authFetch } from '../../../../Middleware/axios/Interceptors';
+import { ToastSucess, ToastError } from '../../../../features/DisplayMessage';
 
 export default function LanguageModal({open,setOpen,ProfileSubmit}) {
-  let temp_arr = [];
   const cancelButtonRef = useRef(null)
+  const [language, setLanguage] = useState([]);
 
-  const languageHandler =(event)=>{
-    let filtered = languages.filter(lang => {
-      return lang.id === event.target.id;
-    });
-    if (temp_arr.includes(filtered[0])){
-      let myIndex = temp_arr.indexOf(filtered[0]);
-      temp_arr.splice(myIndex, 1);
+  const HandleChange = (event) => {
+    if(language.includes(event.target.value)){
+      let findIndex = language.indexOf(event.target.value)
+                      language.splice(findIndex,1)
+    }else{
+      setLanguage([...language,event.target.value])
     }
-    else{
-      temp_arr.push(filtered[0]);
-    }
-  }
-
-  const languageSubmitHandler =()=> {
-    axios({
-      method: 'patch',
-      url: `${"BaseUrl.url"}/add-language`,
-      headers:{
-        'Authorization':`Bearer ${window.localStorage.getItem('token')}`
-      },
-      data:temp_arr
-    }).then((res)=>{
+  };
+  
+  const languageSubmitHandler =async()=> {
+    try {
+      const res = await authFetch.patch('/student/add-language',{language:language});
       setOpen(false)
       ProfileSubmit()
-    })
-    .catch((err)=>{
-      toast.error(err.response.data.message, {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme:'colored'
-        });
-    }) 
+      ToastSucess("Add Language Successfully");
+      } catch (error) { ToastError(error.data.message) }
   }
 
   return (
@@ -88,17 +62,26 @@ export default function LanguageModal({open,setOpen,ProfileSubmit}) {
                         <div>
                               <h5 className="  p-2 font-medium leading-tight text-xl mt-0 mb-2 text-black">Select Languages</h5>
                           </div>
-                          {languages.map((langu) =>{
-                            return(
                           <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
-                              <li key={langu.id}>
+                            <li>
                               <div className="flex items-center">
-                                  <input name="language" id={langu.id} onChange={(e)=>languageHandler(e)} type="checkbox" value="English" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                                  <label htmlFor="checkbox-item-1" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{langu.language}</label>
+                                  <input name="language" type="checkbox" value="English" onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                  <label htmlFor="checkbox-item-1"  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">English</label>
                               </div>
-                              </li>
-                          </ul>)
-                          })}
+                            </li>
+                            <li>
+                              <div className="flex items-center">
+                                  <input name="language" type="checkbox" value="Hindi" onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                  <label htmlFor="checkbox-item-1"  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hindi</label>
+                              </div>
+                            </li>
+                            <li>
+                              <div className="flex items-center">
+                                  <input name="language" type="checkbox" value="Punjabi" onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                  <label htmlFor="checkbox-item-1"  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Punjabi</label>
+                              </div>
+                            </li>
+                          </ul>
                           <button type="button" onClick={()=>languageSubmitHandler()} className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Save</button>
                       </div>
                   </div> 

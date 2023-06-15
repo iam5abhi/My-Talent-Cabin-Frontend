@@ -178,7 +178,7 @@ const Category = () => {
           </div>  
           <ToastContainer />
           <AddCategory open={addCategoryOpen} setOpen={setAddCategoryOpen} GetCategoryData={GetCategoryData}/>
-          <AddSubCategory open={addSubCategoryOpen} setOpen={setAddSubCategoryOpen} id={ids} subCategoryData={subCategoryData} GetCategoryData={GetCategoryData}/> 
+          <AddSubCategory open={addSubCategoryOpen} setOpen={setAddSubCategoryOpen} id={ids} subCategoryData={subCategoryData} GetCategoryData={GetSubCategoryData}/> 
           {editCategoryOpen ===true?<EditCategory open={editCategoryOpen} setOpen={setEditCategoryOpen} id={ids} GetCategoryData={GetCategoryData}/> :null}
           {editSubCategoryOpen ===true?<EditSubCategory open={editSubCategoryOpen} setOpen={setEditSubCategoryOpen} id={ids} GetSubCategoryData={GetSubCategoryData}/> :null}
           <StatusCategory open={statusOpen} setOpen={setStatusOpen} id={ids} GetCategoryData={GetCategoryData} />

@@ -15,7 +15,7 @@ import * as yup from 'yup';
       .string('Enter your password')
       .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,"A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required.")
       .required('Password is required'),
-    confirmpassword: yup
+    confirmPassword: yup
       .string('Enter your Confirm Password')
       .oneOf([yup.ref('password'), null], 'Passwords must match')
       .required('Confirm Password is required'),

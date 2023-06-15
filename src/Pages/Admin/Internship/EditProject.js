@@ -8,13 +8,13 @@ import { ToastContainer } from 'react-toastify';
 const EditProject = () => {
   const navigate = useNavigate()
   const {id} = useParams()
-  const [formData, setFormData] = useState({ companyId: "", title: "", description: "", intershipType: "",price:'',weeks:''})
+  const [formData, setFormData] = useState({ mentorId: "", companyId: "", title: "", description: "", intershipType: "",price:'',weeks:''})
   const [categoryData, setCategoryData] = useState()
   const [newCategoryData, setNewCategoryData] = useState()
   const [subCategoryData, setSubCategoryData] = useState([])
   const [keyword, setKeyword] = useState();
   const [companyData, setCompanyData] = useState()
-
+  const [mentorData, setMentorData] = useState()
 
   const UpdateKeyword = (e) => {
     const filtered = categoryData.filter((data) => {
@@ -61,9 +61,16 @@ const EditProject = () => {
       } catch (error) { ToastError(error.data.message) }
   }
 
+  const GetMentorData = async () => {
+    try {
+      const resp = await authFetch('/admin/mentor');
+      setMentorData(resp.data.data);
+    } catch (error) { ToastError(error) }
+  }
+
   const FormSubmitHandler = async () => {
     try {
-      const res = await authFetch.patch(`/admin/intership/${id}`, {CompanyId:formData.companyId, title:formData.title,
+      const res = await authFetch.patch(`/admin/intership/${id}`, {mentorId:formData.mentorId,CompanyId:formData.companyId, title:formData.title,
         description:formData.description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
         price:formData.price, tags:subCategoryData
       });
@@ -77,7 +84,7 @@ const EditProject = () => {
   const GetInternshipData = async () => {
       try {
       const resp = await authFetch(`/admin/intership/${id}`);
-        setFormData({companyId:resp.data.CompanyId._id, title:resp.data.title, description:resp.data.description, intershipType:resp.data.intershipType,price:resp.data.price,weeks:resp.data.intershipWeek})
+        setFormData({companyId:resp.data.CompanyId._id, title:resp.data.title, description:resp.data.description, intershipType:resp.data.intershipType,price:resp.data.price,weeks:resp.data.intershipWeek,mentorId:resp.data.mentorId._id,})
         let data = resp.data.tags.map(data=>{ return {id:data._id._id,name:data._id.name}} )
         setSubCategoryData(data)          
       } catch (error) { ToastError(error.data.message) }
@@ -87,6 +94,7 @@ const EditProject = () => {
     GetInternshipData()
     GetCategoryData()
     GetCompanyData()
+    GetMentorData()
   }, [])
   return (
     <>
@@ -171,10 +179,19 @@ const EditProject = () => {
             </div>
             <br />
             <div>
-              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select an option</label>
+              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select Company</label>
               <select id="countries" onChange={FormOnChangeHandler} value={formData.companyId} name='companyId' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 <option selected>Choose a Company</option>
                 {!companyData ? null : companyData.map((data, index) => {
+                  return <option value={data._id}>{data.name}</option>
+                })}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select Mentor</label>
+              <select id="countries" onChange={FormOnChangeHandler} value={formData.mentorId} name='mentorId' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option selected>Choose a Mentor</option>
+                {!mentorData ? null : mentorData.map((data, index) => {
                   return <option value={data._id}>{data.name}</option>
                 })}
               </select>

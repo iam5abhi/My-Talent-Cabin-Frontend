@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { Fragment, useRef, useState } from 'react'
+import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { v4 as uuid } from 'uuid';
-import axios from 'axios'
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastError, ToastSucess } from '../../../../features/DisplayMessage';
+import { authFetch } from '../../../../Middleware/axios/intance';
 
 export default function EducationModal({open,setOpen,ProfileSubmit}) {
   const cancelButtonRef = useRef(null)
-  const [experienceData,setExperienceData]=React.useState({ id:uuid(), position:'', company:'', startDate:'', endDate:''})
+  const [experienceData,setExperienceData]=React.useState({ position:'', company:'', startDate:'', endDate:''})
 
   const ExperienceHandler =(e)=>{
     setExperienceData((pre)=>({
@@ -16,30 +15,14 @@ export default function EducationModal({open,setOpen,ProfileSubmit}) {
   }))
  }
 
-  const ExperienceSubmit =()=> {
-    axios({
-      method: 'patch',
-      url: `${"BaseUrl.url"}/add-exprience`,
-      headers:{
-        'Authorization':`Bearer ${window.localStorage.getItem('token')}`
-      },
-      data:experienceData
-    }).then((res)=>{
-      ProfileSubmit()
+  const ExperienceSubmit = async(event)=> {
+    event.preventDefault()
+    try {
+      const res = await authFetch.patch('/student/add-exp',{ experience:experienceData});
       setOpen(false)
-    })
-    .catch((err)=>{
-      toast.error(err.response.data.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme:'colored'
-        });
-    })
+      ProfileSubmit()
+      ToastSucess("Add Experience Successfully");
+      } catch (error) { ToastError(error.data.message) }
   }
 
   return (

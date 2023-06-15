@@ -15,6 +15,7 @@ export default function AddSubCategory({setOpen,open,GetCategoryData,id,subCateg
         ToastSucess(res.data.message)
         setOpen(false)
         GetCategoryData()
+        setInputCate('')
       }catch (error) {
         ToastError(error)
       }

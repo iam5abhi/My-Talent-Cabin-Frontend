@@ -1,17 +1,9 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
 
 const MentorHome = () => {
-  const navigate = useNavigate()
-
-  useEffect(()=>{
-    navigate('/auth/mentor/request')
-  },[])
   return (
-        <>
-        <div>MentorHome</div>
-    </>
+    <div>MentorHome</div>
   )
 }
 
-export default MentorHome;
+export default MentorHome

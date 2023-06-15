@@ -16,6 +16,9 @@ const AdminHeader = () => {
             name: "Students",
             to: "/auth/admin/students"
         }, {
+            name: "Mentors",
+            to: "/auth/admin/mentors"
+        }, {
             name: "Company",
             to: "/auth/admin/company"
         }, {
@@ -27,7 +30,7 @@ const AdminHeader = () => {
         }, {
             name: "Internship",
             to: "/auth/admin/internship"
-        },  
+        },
     ]
 
     const DropdownIconHandler = () => {
@@ -89,7 +92,7 @@ const AdminHeader = () => {
                         <ul className="flex flex-col mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                             {Routes.map((data) => {
                                 return <li>
-                                    <NavLink to={data.to} isActive className={({ isActive }) => !isActive ? "block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    <NavLink to={data.to} end isActive className={({ isActive }) => !isActive ? "block px-2 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                     : "block px-2 py-2 text-sm text-gray-700 bg-gray-100 border-b-2 border-orange-500"}>{data.name}</NavLink>
                                 </li>
                             })}

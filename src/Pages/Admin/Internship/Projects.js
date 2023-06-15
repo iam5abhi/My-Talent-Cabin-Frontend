@@ -76,7 +76,7 @@ const Projects = () => {
             <div className="flex justify-between items-center px-1 bg-white">
                 </div>
                 <hr />
-                <div className="inline-block min-w-full px-10 shadow-md rounded-lg overflow-hidden">
+                <div className="inline-block min-w-full px-10 pb-10 shadow-md rounded-lg overflow-hidden">
                   <DataTable
                     columns={columns}
                     title={AddProjectComponent()}
