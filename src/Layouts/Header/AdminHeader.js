@@ -22,8 +22,8 @@ const AdminHeader = () => {
             name: "Company",
             to: "/auth/admin/company"
         }, {
-            name: "Jobs",
-            to: "/auth/admin/job-view"
+            name: "Applied Students",
+            to: "/auth/admin/applied-students"
         }, {
             name: "Category",
             to: "/auth/admin/category"

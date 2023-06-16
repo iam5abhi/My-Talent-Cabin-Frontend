@@ -18,7 +18,7 @@ const Projects = () => {
   const columns = [
     { name: 'Project Name', selector: row => row.title, width:"15rem"},
     // { name: 'Company Name', selector: row => row.userId.name,width:"11rem" },
-    { name: 'Posted', selector: row => row.CompanyId.name, width:"11rem"}, 
+    { name: 'Posted', selector: row => row.companyData.map(data=>data.name), width:"11rem"}, 
     { name: 'Intership Type', selector: row => row.intershipType,},
     { name: 'Price', selector: row => row.price?row.price:"0$",},
     { name: 'Intership Week', selector: row => row.intershipWeek,},

@@ -41,7 +41,7 @@ const AdminRouting = () => {
       component:ViewJob
     },
     {
-      path:'job-view',
+      path:'applied-students',
       component:JobView
     },
     {
