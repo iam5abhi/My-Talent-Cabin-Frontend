@@ -55,7 +55,7 @@ const Mentors = () => {
 
     const GetStudentData = async ()=> {
         try {
-        const res = await authFetch(`/admin/mentor`);
+        const res = await authFetch.get(`/admin/mentor`);
         setStudentData(res.data.data); 
         let active = getfunction(res.data.data,'active')
         let hold = getfunction(res.data.data,'onhold') 
