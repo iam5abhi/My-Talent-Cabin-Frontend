@@ -133,34 +133,19 @@ function ProfileMenu() {
 const navListItems = [
   {
     label: "Dashboard",
-    to: "/auth/student",
+    to: "/auth/company",
     icon: HomeIcon,
   },
   {
     label: "Students",
-    to: "/auth/student/students",
+    to: "/auth/company/students",
     icon: CubeTransparentIcon,
   },
-  // {
-  //     label: "Company",
-  //     to: "/auth/admin/company",
-  //     icon: CodeBracketSquareIcon,
-  // },
-  // {
-  //     label: "Jobs",
-  //     to: "/auth/admin/job-view",
-  //     icon: CodeBracketSquareIcon,
-  // },
-  // {
-  //     label: "Jobs",
-  //     to: "/auth/admin/category",
-  //     icon: CodeBracketSquareIcon,
-  // },
-  // {
-  //     label: "Jobs",
-  //     to: "/auth/admin/internship",
-  //     icon: CodeBracketSquareIcon,
-  // },
+  {
+    label: "Internship",
+    to: "/auth/company/internship",
+    icon: CodeBracketSquareIcon,
+  }
 ];
 
 

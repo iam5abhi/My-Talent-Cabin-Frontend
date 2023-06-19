@@ -1,12 +1,10 @@
 import React,{useState,useEffect} from 'react';
-import DataTable from 'react-data-table-component';
-import { customStyles } from '../../../features/DataTable';
 import { authFetch } from '../../../Middleware/axios/Interceptors';
 import { useNavigate } from 'react-router-dom';
 import { ToastError } from '../../../features/DisplayMessage';
 import { ToastContainer } from 'react-toastify';
 import StatusInternship from '../../../Components/Admin/Projects/StatusInternship';
-import AdminHeader from '../../../Layouts/Header/AdminHeader';
+import ProjectComponents from '../../../Components/ComanRegisterComponents/ProjectComponents';
 
 const Projects = () => {
   const navigate = useNavigate()
@@ -32,24 +30,6 @@ const Projects = () => {
     <i className="fa-solid fa-check"></i></button>
      </div>, width:"10rem" },
   ];
-  
-  const AddProjectComponent=()=>{
-    return(
-      <div className='flex justify-between mt-3 -mb-7'>
-      <h1 className='font-semibold'>Internships</h1>
-      <div className='grid grid-cols-2 gap-4'>
-        <div>
-        <input type='text' onChange={(e)=>setSearchText(e.target.value)} 
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-orange-500 focus:border-orange-500 block w-full p-3" placeholder='Search' />  &nbsp;
-          </div>
-          <div>
-          <button type="button" onClick={()=>navigate('/auth/admin/add-internship')} className="text-white text-lg bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:ring-orange-300 rounded-full px-4 py-2">
-            <i class="fa-solid fa-plus"></i> Add Internship</button>
-          </div>
-      </div>
-  </div>
-    )
-  }
 
   const StatusHandler =(id)=>{
     setIds(id)
@@ -70,29 +50,7 @@ const Projects = () => {
   return (
         <>
           {/* --------------All project----------------- */}
-          <div className="max-w-screen mx-auto mt-10">
-            <div className="container px-4 mx-auto">
-            <div>
-            <div className="flex justify-between items-center px-1 bg-white">
-                </div>
-                <hr />
-                <div className="inline-block min-w-full px-10 pb-10 shadow-md rounded-lg overflow-hidden">
-                  <DataTable
-                    columns={columns}
-                    title={AddProjectComponent()}
-                    data={!categoryData?[]:categoryData.filter((item) => {
-                      if (searchText === "") { return item;} 
-                      // else if (item.status.toLowerCase().includes(searchText.toLowerCase())){return item;}
-                      // else if (item.phoneNumber.toString().includes(searchText)){return item;}
-                      else if (item.title.toLowerCase().includes(searchText.toLowerCase())){return item;}
-                      // else if (item.email.toLowerCase().includes(searchText.toLowerCase())){return item;}  
-                    })}
-                    customStyles={customStyles} 
-                  />
-                </div>
-            </div>
-            </div>
-          </div>
+          <ProjectComponents data={{path:'/auth/admin/add-internship',setSearchText,columns,categoryData,searchText}}/>
           < StatusInternship setOpen={setStatusOpen} open={statusOpen} id={ids} GetCategoryData={GetCategoryData} />
           <ToastContainer />
           

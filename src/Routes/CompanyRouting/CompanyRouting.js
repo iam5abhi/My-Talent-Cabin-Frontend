@@ -7,6 +7,9 @@ import CompanyHeader from '../../Layouts/Header/CompanyHeader'
 import Profile from '../../Pages/Company/Profile';
 import jwt_decode from "jwt-decode";
 import { CompanyToken } from '../../features/Token';
+import Internship from '../../Pages/Company/Internship/Internship'
+import UploadInternship from '../../Pages/Company/Internship/UploadInternship';
+import EditInternship from '../../Pages/Company/Internship/EditInternship';
 
 export const MyContext= createContext()
 const CompanyRouting = () => {
@@ -18,7 +21,16 @@ const CompanyRouting = () => {
         },{
             path:'profile',
             component:Profile
-        } 
+        },{
+          path:'internship',
+          component:Internship
+        },{
+          path:'upload-internship',
+          component:UploadInternship
+        },{
+          path:'edit-internship/:id',
+          component:EditInternship
+        }, 
     ]
 
   return (

@@ -141,26 +141,11 @@ const navListItems = [
     to: "/auth/mentor/students",
     icon: CubeTransparentIcon,
   },
-  // {
-  //     label: "Company",
-  //     to: "/auth/admin/company",
-  //     icon: CodeBracketSquareIcon,
-  // },
-  // {
-  //     label: "Jobs",
-  //     to: "/auth/admin/job-view",
-  //     icon: CodeBracketSquareIcon,
-  // },
-  // {
-  //     label: "Jobs",
-  //     to: "/auth/admin/category",
-  //     icon: CodeBracketSquareIcon,
-  // },
-  // {
-  //     label: "Jobs",
-  //     to: "/auth/admin/internship",
-  //     icon: CodeBracketSquareIcon,
-  // },
+  {
+      label: "Internship",
+      to: "/auth/mentor/internship",
+      icon: CodeBracketSquareIcon,
+  }
 ];
 
 

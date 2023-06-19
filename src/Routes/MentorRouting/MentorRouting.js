@@ -7,6 +7,9 @@ import Profile from '../../Pages/Mentor/Profile';
 import jwt_decode from "jwt-decode";
 import { MentorToken } from '../../features/Token';
 import MentorPrivateRoute from '../../Middleware/Private Route/MentorPrivateRoute';
+import UploadInternship from '../../Pages/Mentor/Internship/UploadInternship';
+import Internship from '../../Pages/Mentor/Internship/Internship';
+import EditInternship from '../../Pages/Mentor/Internship/EditInternship';
 
 export const MentorContext= createContext()
 const MentorRouting = () => {
@@ -18,7 +21,16 @@ const MentorRouting = () => {
         },{
             path:'profile/*',
             component:Profile
-        } 
+        },{
+          path:'internship',
+          component:Internship
+        },{
+          path:'upload-internship',
+          component:UploadInternship
+        },{
+          path:'edit-internship/:id',
+          component:EditInternship
+        }, 
     ]
 
   return (
