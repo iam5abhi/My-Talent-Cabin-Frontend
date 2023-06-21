@@ -1,12 +1,12 @@
 import React from 'react';
 import Main from './main'
-import { UserProvider } from './TestHandler/Context';
+import { ModalProvider } from './TestHandler/modal/ModalContext';
 
 function App() {
   return (
-        <UserProvider>
+        <ModalProvider>
           <Main />
-        </UserProvider>
+        </ModalProvider>
   );
 }
 

@@ -7,7 +7,6 @@ import Register from './Pages/Auth/register/Register'
 import Login from './Pages/Auth/login/Login';
 import ChangePassword from './Pages/Change-Password/ChangePassword';
 import AdminLogin from './Pages/Auth/Admin/login/AdminLogin';
-import Test from './TestHandler/Test';
 import CompanyLogin from './Pages/Auth/login/CompanyLogin';
 import CompanyRegister from './Pages/Auth/register/CompanyRegister';
 import CompanyRouting from './Routes/CompanyRouting/CompanyRouting';
@@ -33,7 +32,6 @@ const Main = () => {
         <Route path="/auth/student/*" element={<StudentRouting />} />
         <Route path="/auth/company/*" element={<CompanyRouting />} />
         <Route path="/auth/mentor/*" element={<MentorRouting />} />
-        <Route path="/Test" element={<Test />} />
       </Routes>
     </>
   )
