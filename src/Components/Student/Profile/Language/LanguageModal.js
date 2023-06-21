@@ -4,16 +4,18 @@ import { Dialog, Transition } from '@headlessui/react'
 import { authFetch } from '../../../../Middleware/axios/Interceptors';
 import { ToastSucess, ToastError } from '../../../../features/DisplayMessage';
 
-export default function LanguageModal({open,setOpen,ProfileSubmit}) {
+function LanguageModal({open,setOpen,ProfileSubmit,data}) {
   const cancelButtonRef = useRef(null)
   const [language, setLanguage] = useState([]);
 
   const HandleChange = (event) => {
-    if(language.includes(event.target.value)){
-      let findIndex = language.indexOf(event.target.value)
-                      language.splice(findIndex,1)
-    }else{
-      setLanguage([...language,event.target.value])
+    const selectedLanguage = event.target.value;
+    if (language.includes(selectedLanguage)) {
+      const updatedLanguage = language.filter((lang) => lang !== selectedLanguage);
+      setLanguage(updatedLanguage);
+    } else {
+      const updatedLanguage = [...language, selectedLanguage];
+      setLanguage(updatedLanguage);
     }
   };
   
@@ -25,6 +27,10 @@ export default function LanguageModal({open,setOpen,ProfileSubmit}) {
       ToastSucess("Add Language Successfully");
       } catch (error) { ToastError(error.data.message) }
   }
+  React.useEffect(()=>{
+    console.log(data,"data")
+    setLanguage(data)
+  },[])
 
   return (
     <Transition.Root show={open} as={Fragment}>   
@@ -65,19 +71,19 @@ export default function LanguageModal({open,setOpen,ProfileSubmit}) {
                           <ul className="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
                             <li>
                               <div className="flex items-center">
-                                  <input name="language" type="checkbox" value="English" onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                  <input name="language" type="checkbox" value="English" checked={language.includes("English")} onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                   <label htmlFor="checkbox-item-1"  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">English</label>
                               </div>
                             </li>
                             <li>
                               <div className="flex items-center">
-                                  <input name="language" type="checkbox" value="Hindi" onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                  <input name="language" type="checkbox" value="Hindi" checked={language.includes("Hindi")} onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                   <label htmlFor="checkbox-item-1"  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hindi</label>
                               </div>
                             </li>
                             <li>
                               <div className="flex items-center">
-                                  <input name="language" type="checkbox" value="Punjabi" onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                  <input name="language" type="checkbox" value="Punjabi" checked={language.includes("Punjabi")} onChange={HandleChange} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                   <label htmlFor="checkbox-item-1"  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Punjabi</label>
                               </div>
                             </li>
@@ -94,4 +100,5 @@ export default function LanguageModal({open,setOpen,ProfileSubmit}) {
       </Dialog>
     </Transition.Root>
   )
-}
+} 
+export default React.memo(LanguageModal)

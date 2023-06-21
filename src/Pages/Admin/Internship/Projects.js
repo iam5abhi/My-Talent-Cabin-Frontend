@@ -28,6 +28,8 @@ const Projects = () => {
     <i className="fa-solid fa-pen-to-square "></i></button>
     <button type="button" data-tooltip="Change Project Status" onClick={()=>StatusHandler(row._id)} className="px-2 py-1 rounded-full focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-text-orange-600 font-medium mr-2 mb-2 text-sm">
     <i className="fa-solid fa-check"></i></button>
+    <button type="button" data-tooltip="Change Project Status" onClick={()=>navigate(`/auth/admin/view-internship/${row._id}`)} className="px-2 py-1 rounded-full focus:outline-none text-white bg-orange-500 hover:bg-orange-600 focus:ring-text-orange-600 font-medium mr-2 mb-2 text-sm">
+    <i className="fa-solid fa-eye"></i></button>
      </div>, width:"10rem" },
   ];
 

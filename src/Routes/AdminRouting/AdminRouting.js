@@ -4,6 +4,7 @@ import AdminLogin from '../../Pages/Auth/Admin/login/AdminLogin';
 import AdminPrivateRoute from '../../Middleware/Private Route/AdminPrivateRoute'
 import { Breathing } from 'react-shimmer'
 import AdminHeader from '../../Layouts/Header/AdminHeader';
+import ViewInternship from '../../Pages/Admin/Internship/ViewInternship';
 
 const ViewJob = React.lazy(() => import('../../Components/Admin/Jobs/ViewJob'));
 const Home =React.lazy(() => import('../../Pages/Admin/Home/Home'));
@@ -20,6 +21,10 @@ const Mentors=React.lazy(() => import('../../Pages/Admin/Mentors/Mentors'));
 const AdminRouting = () => {
 
   const adminroutes =[
+    { 
+      path: 'view-internship/:id',
+      component: ViewInternship,
+    },
     {
       path: 'edit-internship/:id',
       component: EditProject,

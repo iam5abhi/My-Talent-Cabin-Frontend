@@ -53,7 +53,7 @@ const Language = ({data,ProfileSubmit }) => {
         </div>
       </div>
       <LanguageDeleteModal id={languId} setOpen={setLanguageDelete} open={languageDelete} ProfileSubmit={ProfileSubmit} />
-      <LanguageModal setOpen={setOpen} open={open} ProfileSubmit={ProfileSubmit}/>
+      {open==true?<LanguageModal setOpen={setOpen} data={data} open={open} ProfileSubmit={ProfileSubmit}/>:null}
     </>
   )
 }

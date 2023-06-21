@@ -7,23 +7,34 @@ import { authFetch } from '../../../../Middleware/axios/intance';
 export default function EducationModal({open,setOpen,ProfileSubmit}) {
   const cancelButtonRef = useRef(null)
   const [experienceData,setExperienceData]=React.useState({ position:'', company:'', startDate:'', endDate:''})
-
-  const ExperienceHandler =(e)=>{
-    setExperienceData((pre)=>({
-        ...pre,
-        [e.target.name]:e.target.value
+  const [disableEndDate,setDisableEndDate]=React.useState()
+  console.log(experienceData,"-------------")
+const ExperienceHandler =(e)=>{
+  setExperienceData((pre)=>({
+      ...pre,
+      [e.target.name]:e.target.value
   }))
- }
+}
 
-  const ExperienceSubmit = async(event)=> {
-    event.preventDefault()
-    try {
-      const res = await authFetch.patch('/student/add-exp',{ experience:experienceData});
-      setOpen(false)
-      ProfileSubmit()
-      ToastSucess("Add Experience Successfully");
-      } catch (error) { ToastError(error.data.message) }
+const CheckBoxHandler =(event)=>{
+  if(event.target.checked){
+    setDisableEndDate(true)
+    setExperienceData({...experienceData,endDate:"Till Date"})
+  }else{
+    setDisableEndDate(false);
+    setExperienceData({...experienceData,endDate:""})
   }
+}
+
+const ExperienceSubmit = async(event)=> {
+  event.preventDefault()
+  try {
+    const res = await authFetch.patch('/student/add-exp',{ experience:experienceData});
+    setOpen(false)
+    ProfileSubmit()
+    ToastSucess("Add Experience Successfully");
+    } catch (error) { ToastError(error.data.message) }
+}
 
   return (
     <Transition.Root show={open} as={Fragment}>   
@@ -61,30 +72,11 @@ export default function EducationModal({open,setOpen,ProfileSubmit}) {
                         <form className="space-y-6">
                         <div>
                         <label htmlFor="large" className="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Add Position</label>
-                        <select id="large" onChange={ExperienceHandler} name="position" className="block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          <option selected>Choose a position</option>
-                          <option value="React Developer">React Developer</option>
-                          <option value="Node Developer">Node Developer</option>
-                          <option value="PHP Developerl">PHP Developer</option>
-                          <option value="Java Developer">Java Developer</option>
-                          <option value="Python Develope">Python Developer</option>
-                          <option value="MERN Stack Developer">MERN Stack Developer</option>
-                          <option value="MEAN Stack Developer">MEAN Stack Developer</option>
-                          <option value="Go lang Developer">Go lang Developer</option>
-                          <option value="Laravel Developer">Laravel Developer</option>
-                        </select>
+                        <input id="large" onChange={ExperienceHandler} name="position" className="block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"/>
                       </div>
                       <div>
                         <label htmlFor="large" className="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Add Company</label>
-                        <select id="large" onChange={ExperienceHandler} name="company" className="block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          <option selected>Choose a company</option>
-                          <option value="Codesoftic Tech Private Limited">Codesoftic Tech Private Limited</option>
-                          <option value="TMotions Global Limited">TMotions Global Limited</option>
-                          <option value="DevelopTech IT Solutions">DevelopTech IT Solutions</option>
-                          <option value="NextPage IT Solutions Pvt Ltd">NextPage IT Solutions Pvt Ltd</option>
-                          <option value="Enzoo IT Services Pvt. Ltd.">Enzoo IT Services Pvt. Ltd.</option>
-                          <option value="Fortec Web Solutions Pvt. Ltd.">Fortec Web Solutions Pvt. Ltd.</option>
-                        </select>
+                        <input id="large" onChange={ExperienceHandler} name="company" className="block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"/>
                       </div>
                       <div className="grid gap-6 mb-6 md:grid-cols-2">
                         <div>
@@ -93,7 +85,9 @@ export default function EducationModal({open,setOpen,ProfileSubmit}) {
                         </div>
                         <div>
                           <label htmlFor="large" className="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Completion Year</label>
-                          <input type="month" id="last_name" onChange={ExperienceHandler} name="endDate" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" required />
+                          <input type="month" id="last_name" value={experienceData.endDate} disabled={disableEndDate} onChange={ExperienceHandler} name="endDate" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" required />
+                          <input name="language" type="checkbox" onChange={CheckBoxHandler} value="till date" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                          <label htmlFor="checkbox-item-1"  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Till Date</label>
                         </div>
                       </div>
                       <button type="button" onClick={ExperienceSubmit} className="ml-5 rounded-md border border-gray-300 bg-blue-800 text-white py-2 px-3 text-sm font-medium shadow-sm ">Submit</button>

@@ -5,19 +5,20 @@ import {authFetch} from '../../../../Middleware/axios/Interceptors'
 import {ToastError, ToastSucess} from '../../../../features/DisplayMessage'
 
 
-export default function SkillModal({open,setOpen,ProfileSubmit}) {
+export default function SkillModal({open,setOpen,ProfileSubmit,data}) {
   const cancelButtonRef = useRef(null)
   const [subCategoryAllData,setSubCategoryAllData]=useState([])
   const [skillData,setSkillData]=useState([])
 
-  const skillsHandler =(id)=>{
-    if(skillData.includes(id)){
-      let findIndex = skillData.indexOf(id)
-                      skillData.splice(findIndex,1)
-    }else{
-      setSkillData([...skillData,id])
+  const skillsHandler = (id) => {
+    if (skillData.includes(id)) {
+      const updatedSkills = skillData.filter((skill) => skill !== id);
+      setSkillData(updatedSkills);
+    } else {
+      const updatedSkills = [...skillData, id];
+      setSkillData(updatedSkills);
     }
-  }
+  };
 
   const skillsSubmitHandler =async()=> {
     try {
@@ -37,6 +38,8 @@ export default function SkillModal({open,setOpen,ProfileSubmit}) {
 
   useEffect(() => {
     GetSubCategoryData()
+    const skillDataArr = data.map(skill => skill._id);
+    setSkillData(skillDataArr)
   },[])
 
   return (
@@ -80,7 +83,7 @@ export default function SkillModal({open,setOpen,ProfileSubmit}) {
                       return(
                         <li key={skill._id}>
                           <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                            <input onChange={()=>skillsHandler(skill._id)} type="checkbox" defaultValue className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                            <input onChange={()=>skillsHandler(skill._id)} value={skill._id} type="checkbox" checked={skillData.includes(skill._id)} className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                             <label htmlFor="checkbox-item-11" className="py-2 ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">{skill.name}</label>
                           </div>
                         </li>

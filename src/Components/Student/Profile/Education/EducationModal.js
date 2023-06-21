@@ -61,28 +61,11 @@ export default function EducationModal({open,setOpen,ProfileSubmit}) {
                          <form onSubmit={EducationSubmit} className="space-y-4">
                           <div>
                             <label htmlFor="large" className="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Add Degree</label>
-                            <select id="large" onChange={EducationHandler} name="degreeName" className="block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                              <option selected>Choose a Qualification</option>
-                              <option value="10th">10th</option>
-                              <option value="12th">12th</option>
-                              <option value="Bachelor Of Arts">Bachelor Of Arts</option>
-                              <option value="Bachelor Of Science">Bachelor Of Science</option>
-                              <option value="Bachelor Of Commerce">Bachelor Of Commerce</option>
-                              <option value="Bachelors's in Computer Application">Bachelors's in Computer Application</option>
-                              <option value="Bachelor of Technology">Bachelor of Technology</option>
-                            </select>
+                            <input id="large" onChange={EducationHandler} name="degreeName" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
                           </div>
                           <div>
                             <label htmlFor="large" className="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Add College</label>
-                            <select id="large" onChange={EducationHandler} name="collegeName" className="block py-2 px-4 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                              <option selected>Choose a college</option>
-                              <option value="Chandigarh University">Chandigarh University</option>
-                              <option value="Punjab University">Punjab University</option>
-                              <option value="Sri Sai University">Sri Sai University</option>
-                              <option value="Lovely Professional University">Lovely Professional University</option>
-                              <option value="Central University of Haryana">Central University of Haryana</option>
-                              <option value="Board of Secondary Education, Rajasthan">Board of Secondary Education, Rajasthan</option>
-                            </select>
+                            <input id="large" onChange={EducationHandler} name="collegeName" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
                           </div>
                           <div className="grid gap-6 mb-6 md:grid-cols-2">
                             <div>

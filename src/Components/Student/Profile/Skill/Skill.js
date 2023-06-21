@@ -52,7 +52,7 @@ const Skill = ({data,ProfileSubmit}) => {
             })}
           </div>
         </div>
-       {open==true? <SkillModal setOpen={setOpen} open={open} ProfileSubmit={ProfileSubmit}/>:null}
+       {open==true? <SkillModal data={data} setOpen={setOpen} open={open} ProfileSubmit={ProfileSubmit}/>:null}
         <SkillDeleteModal id={skillsId} setOpen={setSkillDelete} open={skillDelete} ProfileSubmit={ProfileSubmit} />
     </>
   )
