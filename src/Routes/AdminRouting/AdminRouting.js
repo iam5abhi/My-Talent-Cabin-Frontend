@@ -73,9 +73,7 @@ const AdminRouting = () => {
             <Routes>
                 {/* <Route path="login" element={ < AdminLogin />} /> */}
                 {
-
                   adminroutes.map((route) => (
-                    
                     <Route
                     path={route.path}
                     element={<React.Suspense fallback={<><Breathing width={1200} height={1000} /></>}>

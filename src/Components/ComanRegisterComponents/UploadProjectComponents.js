@@ -1,8 +1,10 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import {endDate} from '../../features/DateCheck'
 
-const UploadProjectComponents = ({data,TdClick,RemoveTags}) => {
-    const location = useLocation()
+const UploadProjectComponents = ({ data, TdClick, RemoveTags }) => {
+  const location = useLocation()
+  let endDateMax = endDate(data.formData.startDate)
   return (
     <>
       <div className="flex min-h-full items-center justify-center  px-4 sm:px-6 lg:px-8 ">
@@ -38,6 +40,16 @@ const UploadProjectComponents = ({data,TdClick,RemoveTags}) => {
                 <label htmlFor="bordered-checkbox-1" className="w-full py-4 ml-2 text-base  font-medium text-gray-900">Unpaid</label>
               </div>
               <div>
+              </div>
+            </div>
+            <div className="grid gap-6 grid-cols-2 pt-2">
+              <div >
+                <label htmlFor="small-input" className="block mb-2 ml-2 text-md font-medium text-gray-900">Start Date</label>
+                <input type="date" id="small-input" name='startDate' max={data.formData.endDate} onChange={data.FormOnChangeHandler} placeholder='Start Date' className="block w-full ml-2 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-orange-500 focus:border-orange-500 " />
+              </div>
+              <div >
+                <label htmlFor="small-input" className="block mb-2 ml-2 text-md font-medium text-gray-900">End Date</label>
+                <input type="date" id="small-input" name='endDate' min={endDateMax} onChange={data.FormOnChangeHandler} placeholder='End Date' className="block w-full ml-2 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-orange-500 focus:border-orange-500 " />
               </div>
             </div>
             {data.formData.intershipType == "paid" ? <>
@@ -85,25 +97,25 @@ const UploadProjectComponents = ({data,TdClick,RemoveTags}) => {
               <textarea id="message" onChange={data.FormOnChangeHandler} name='description' rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 " placeholder="Write your project description here..." defaultValue={""} />
             </div>
             <br />
-            {location.pathname=='/auth/mentor/upload-internship'?null:location.pathname=='/auth/company/upload-internship'?null:<>
-            <div className='mb-3'>
-              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select Company</label>
-              <select id="countries" onChange={data.FormOnChangeHandler} name='companyId' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option selected>Choose a Company</option>
-                {!data.companyData ? null : data.companyData.map((data, index) => {
-                  return <option value={data._id}>{data.name}</option>
-                })}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select Mentor</label>
-              <select id="countries" onChange={data.FormOnChangeHandler} name='mentorId' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option selected>Choose a Mentor</option>
-                {!data.mentorData ? null : data.mentorData.map((data, index) => {
-                  return <option value={data._id}>{data.name}</option>
-                })}
-              </select>
-            </div></>}
+            {location.pathname == '/auth/mentor/upload-internship' ? null : location.pathname == '/auth/company/upload-internship' ? null : <>
+              <div className='mb-3'>
+                <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select Company</label>
+                <select id="countries" onChange={data.FormOnChangeHandler} name='companyId' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                  <option selected>Choose a Company</option>
+                  {!data.companyData ? null : data.companyData.map((data, index) => {
+                    return <option value={data._id}>{data.name}</option>
+                  })}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select Mentor</label>
+                <select id="countries" onChange={data.FormOnChangeHandler} name='mentorId' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                  <option selected>Choose a Mentor</option>
+                  {!data.mentorData ? null : data.mentorData.map((data, index) => {
+                    return <option value={data._id}>{data.name}</option>
+                  })}
+                </select>
+              </div></>}
           </section>
         </div>
       </div>

@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { authFetch } from '../../../Middleware/axios/Interceptors';
 import UploadProjectComponents from '../../../Components/ComanRegisterComponents/UploadProjectComponents';
 
+
 const UploadProject = () => {
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({ companyId: "", mentorId: "", title: "", description: "", intershipType: "",price:'',weeks:''})
+  const [formData, setFormData] = useState({ companyId: "", mentorId: "", title: "", description: "", intershipType: "", price:'', weeks:'', endDate:'', startDate:''})
   const [categoryData, setCategoryData] = useState()
   const [newCategoryData, setNewCategoryData] = useState()
   const [subCategoryData, setSubCategoryData] = useState([])
@@ -14,6 +15,7 @@ const UploadProject = () => {
   const [companyData, setCompanyData] = useState()
   const [mentorData, setMentorData] = useState()
 
+  console.log(formData,"formData")
   const UpdateKeyword = (e) => {
     const filtered = categoryData.filter((data) => {
       return data.name.toLowerCase().includes(e.target.value.toLowerCase());

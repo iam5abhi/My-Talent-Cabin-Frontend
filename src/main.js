@@ -13,6 +13,7 @@ import CompanyRouting from './Routes/CompanyRouting/CompanyRouting';
 import MentorRouting from './Routes/MentorRouting/MentorRouting';
 import MentorLogin from './Pages/Auth/login/MentorLogin';
 import MentorRegister from './Pages/Auth/register/MentorRegister';
+import LoginWithOtp from './Pages/Auth/login/LoginWithOtp';
 
 const Main = () => {
 
@@ -22,6 +23,7 @@ const Main = () => {
         <Route path="/" element={< Home />} />
         <Route path='/register' element={< Register />} />
         <Route path="login" element={< Login />} />
+        <Route path="login-withotp" element={< LoginWithOtp />} />
         <Route path="/change-password" element={< ChangePassword />} />
         <Route path="/auth/admin/login" element={<AdminLogin />} />
         <Route path='/company-register' element={< CompanyRegister />} />

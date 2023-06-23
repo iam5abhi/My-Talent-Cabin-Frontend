@@ -3,6 +3,7 @@ import { authFetch } from '../../../Middleware/axios/intance'
 import { Breathing } from 'react-shimmer'
 import { useParams ,useNavigate } from 'react-router-dom'
 import {ToastError,ToastSucess} from '../../../features/DisplayMessage'
+import PaymentForm from '../../../TestHandler/PaymentForm'
 
 
 
@@ -39,6 +40,11 @@ const ViewRequirement = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const PaymentGatway=(event)=>{
+    event.preventDefault()
+    alert("payment")
   }
 
   useEffect(() => {
@@ -128,17 +134,18 @@ const ViewRequirement = () => {
                    </div>
                   })}
                 </div>
-            <form onSubmit={ApplySubmitData}>
+            <form onSubmit={!singleProjectData?null:singleProjectData.intershipType=="paid"?PaymentGatway:ApplySubmitData}>
               <div>
                 <textarea id="message" name='description' onChange={(event) => setFormData(event.target.value)} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 " placeholder="Write your project description here..." defaultValue={""} required/>
               </div>
               <div className="text-center mt-5">
-                <button type="submit" className="text-white text-end bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:ring-orange-300 font-medium rounded-full text-md px-20 py-3 mr-2 mb-2">Enroll Now</button>
+                <button type="submit" className="text-white text-end bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:ring-orange-300 font-medium rounded-full text-md px-20 py-3 mr-2 mb-2"> {!singleProjectData?null:singleProjectData.intershipType=="paid"?`Pay ${singleProjectData.price}$`:"Enroll Now" }</button>
               </div>
             </form>
             </section>
             </div>
         </div>
+        <PaymentForm />
     </>
   )
 }

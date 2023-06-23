@@ -4,7 +4,6 @@ import { authFetch } from '../../Middleware/axios/intance';
 import { ToastError } from '../../features/DisplayMessage'
 import flag from "../../Assets/Images/flag.png"
 import pending from '../../Assets/Images/pending.png'
-import TablePagination from '../../TestHandler/TablePagination';
 import Table from '../../Components/Table/Table';
 import styles from '../../Assets/Style/Table/Home.module.css'
 import CustomModal from '../../TestHandler/CustomModal';
@@ -93,12 +92,12 @@ const StudentHome = () => {
               </div>
             </div>
           </div>
-          <main className={styles.container}>
+          {/* <main className={styles.container}>
       <div className={styles.wrapper}>
         <Table data={projects} rowsPerPage={10} />
       </div>
-    </main>
-    <CustomModal modalType="Add" modalTitle="Add Category" modalName="addModal" >
+    </main> */}
+    {/* <CustomModal modalType="Add" modalTitle="Add Category" modalName="addModal" >
     <div className="overflow-auto">
             <div className=" max-w-screen-lg mx-auto">
             <form >
@@ -158,7 +157,7 @@ const StudentHome = () => {
               </form>
             </div>
           </div>
-        </CustomModal>
+        </CustomModal> */}
     </>
   )
 }

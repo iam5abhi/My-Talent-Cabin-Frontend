@@ -30,7 +30,7 @@ const Requirement = () => {
         :
         <Message message={message.message} css='flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg' />
         :null}
-        <h5 className="mt-5 text-2xl font-bold tracking-tight text-gray-900">Requirement's</h5>
+        <h5 className="mt-5 text-2xl font-bold tracking-tight text-gray-900">Internship's</h5>
             <div className="grid grid-cols-3 gap-4 px-6  py-6">
                 {!requirementData?null:requirementData.map((datas)=>{
                     return <div className="text-center">
