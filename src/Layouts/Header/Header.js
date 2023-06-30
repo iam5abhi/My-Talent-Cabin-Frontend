@@ -24,6 +24,12 @@ import {
   HomeIcon
 } from "@heroicons/react/24/outline";
 
+
+
+
+
+
+
 // profile menu component
 const profileMenuItems = [
   {
@@ -44,12 +50,19 @@ const profileMenuItems = [
   {
     label: "Logout",
     icon: PowerIcon,
+    onClick:"LogoutHandler"
   },
 ];
 
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleLogout = () => {
+    // Perform logout actions here
+    window.localStorage.removeItem('token');
+  };
+
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -89,12 +102,12 @@ function ProfileMenu() {
             {"label"}
           </Typography>
         </MenuItem>
-        {profileMenuItems.map(({ label, icon, to }, key) => {
+        {profileMenuItems.map(({ label, icon, to,onClick}, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={isLastItem ? handleLogout : closeMenu}
               className={`flex items-center gap-2 rounded ${isLastItem
                 ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                 : ""
@@ -107,6 +120,7 @@ function ProfileMenu() {
               <Typography
                 as={NavLink}
                 to={to}
+                // onClick={fn}
                 variant="small"
                 className="font-normal"
                 color={isLastItem ? "red" : "inherit"}
