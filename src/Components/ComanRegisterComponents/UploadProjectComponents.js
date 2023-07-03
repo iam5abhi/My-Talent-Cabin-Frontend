@@ -42,6 +42,14 @@ const UploadProjectComponents = ({ data, TdClick, RemoveTags }) => {
               <div>
               </div>
             </div>
+            {data.formData.intershipType == "paid" ? <>
+              <div >
+                <label htmlFor="small-input" className="block mb-2 ml-2 text-md font-medium text-gray-900">Price</label>
+                <input type="text" id="small-input" name='price' onChange={data.FormOnChangeHandler} placeholder='Enter Price' className="block w-full ml-2 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-orange-500 focus:border-orange-500 " />
+              </div>
+              <br />
+            </>
+              : null}
             <div className="grid gap-6 grid-cols-2 pt-2">
               <div >
                 <label htmlFor="small-input" className="block mb-2 ml-2 text-md font-medium text-gray-900">Start Date</label>
@@ -52,14 +60,16 @@ const UploadProjectComponents = ({ data, TdClick, RemoveTags }) => {
                 <input type="date" id="small-input" name='endDate' min={endDateMax} onChange={data.FormOnChangeHandler} placeholder='End Date' className="block w-full ml-2 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-orange-500 focus:border-orange-500 " />
               </div>
             </div>
-            {data.formData.intershipType == "paid" ? <>
+            <div className="grid gap-6 grid-cols-2 pt-2">
               <div >
-                <label htmlFor="small-input" className="block mb-2 ml-2 text-md font-medium text-gray-900">Price</label>
-                <input type="text" id="small-input" name='price' onChange={data.FormOnChangeHandler} placeholder='Enter Price' className="block w-full ml-2 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-orange-500 focus:border-orange-500 " />
+                <label htmlFor="small-input" className="block mb-2 ml-2 text-md font-medium text-gray-900">Number Of Opening</label>
+                <input type="text" id="small-input" name='number_of_opening' max={data.formData.endDate} onChange={data.FormOnChangeHandler} placeholder='Number Of Opening' className="block w-full ml-2 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-orange-500 focus:border-orange-500 " />
               </div>
-              <br />
-            </>
-              : null}
+              <div > 
+                <label htmlFor="small-input" className="block mb-2 ml-2 text-md font-medium text-gray-900">Meeting Link</label>
+                <input type="text" id="small-input" name='meetingLink' min={endDateMax} onChange={data.FormOnChangeHandler} placeholder='Meeting Link' className="block w-full ml-2 p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-orange-500 focus:border-orange-500 " />
+              </div>
+            </div>
             <div>
               <div className="grid grid-cols-2 gap-20  ">
                 <div>

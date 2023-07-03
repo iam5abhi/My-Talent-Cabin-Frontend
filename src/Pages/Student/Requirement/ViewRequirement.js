@@ -1,33 +1,23 @@
 import React, { useState,useEffect } from 'react'
 import { authFetch } from '../../../Middleware/axios/intance'
 import { Breathing } from 'react-shimmer'
-// import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useParams ,useNavigate } from 'react-router-dom'
 import {ToastError,ToastSucess} from '../../../features/DisplayMessage'
-// import PaymentForm from '../../../TestHandler/PaymentForm'
 import { loadStripe } from "@stripe/stripe-js";
 import RazorPay from '../../../Assets/Images/R.png'
 import Stripe from '../../../Assets/Images/S.png'
-
-
+import { Token } from '../../../features/Token'
+import jwtdecode from 'jwt-decode'
 
 
 const ViewRequirement = () => {
   const navigate = useNavigate()
   const {id} = useParams()
+  const {user} = jwtdecode(Token())
   const [singleProjectData,setSingleProjectData]=useState()
   const [description,setDescription]=useState()
   const [formData,setFormData]=useState()
   const [isRendered, setRendered] = useState(false);
-  const [succeeded, setSucceeded] = useState(false);
-  const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState("");
-  const [disabled, setDisabled] = useState(true);
-  const [clientSecret, setClientSecret] = useState("");
-
-
-  // const stripe = useStripe();
-  // const elements = useElements();
 
   
   const DescriptionHandle =()=>{
@@ -57,45 +47,95 @@ const ViewRequirement = () => {
     }
   }
 
-  const PaymentGatway=()=>{
+  const PaymentGatway=(event)=>{
+    event.preventDefault()
     setRendered(true)
   }
 
-  const PaymentWithRazorPay=()=>{
-   
+  function loadScript(src) {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
   }
 
-  const PaymentWithStipe =async()=>{
+  const PaymentWithRazorPay= async (event)=>{
+        event.preventDefault()
+        const res = await loadScript(
+          'https://checkout.razorpay.com/v1/checkout.js'
+        );
+    
+        if (!res) {
+          alert('Razorpay SDK failed to load. Are you online?');
+          return;
+        }
+    
+        const result = await authFetch.patch(`/student/paid-internship-with-razorpay/${id}`, {projectUserdesciption:formData});
+    
+        if (!result) {
+          alert('Server error. Are you online?');
+          return;
+        }
+        const { amount, id: order_id, currency } = result.data;
+        const options = {
+          key: 'rzp_live_r2aV622VVCLhI2', // Enter the Key ID generated from the Dashboard
+          amount: amount.toString(),
+          currency: currency,
+          name: 'Codesoftic Tech Private Limited',
+          description: 'Internship',
+          image: "",
+          order_id: order_id,
+          handler: async function (response) {
+            const data = {
+              orderCreationId: order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpayOrderId: response.razorpay_order_id,
+              razorpaySignature: response.razorpay_signature,
+              data:response
+            }
+            const result = await authFetch.patch('/student/payment/sucess',data);
+            if (result) {
+               navigate('/auth/student/payment-success')
+            }else{
+              navigate('/auth/student/payment-failed')
+            }
+            
+          },
+          prefill: {
+            name: user.name,
+            email: user.email,
+            contact: user.phoneNumber,
+          },
+          notes: {
+            address: 'A306 bestech business tower sector 66 sas nagar mohali',
+          },
+          theme: {
+            color: '#61fbae',
+          },
+        };
+    
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+  }
+
+  const PaymentWithStipe =async(event)=>{
+    event.preventDefault()
     const stripe = await loadStripe("pk_test_51IEpRgFDVtL6gGat1PJAaInNkYGWkaEmWRB0Kz7c4KNhiarRSShC8AhoGvfo93SeR0iyrqguXxW3831aha3vZn1f00q5M9mZhU"); 
-    
-    const response = await authFetch.patch(`/student/paid-internship-with-stripe/${id}`,{description:description});
-    debugger
-  
-    // const headers = { 
-    //   "Content-Type": "application/json", 
-    // }; 
- 
-    // const response = await fetch( 
-    //   `http://localhost:7000/student/paid-internship-with-stripe/${id}`, 
-    //   { 
-    //     method: "PATCH", 
-    //     headers: window.localStorage.getItem('token'), 
-    //     body: JSON.stringify(description), 
-    //   } 
-    // ); 
- 
-    
- 
+    const response = await authFetch.patch(`/student/paid-internship-with-stripe/${id}`,{projectUserdesciption:formData});
     const result = stripe.redirectToCheckout({ 
       sessionId: response.data.id, 
     }); 
-  
     if (result.error) { 
       console.log(result.error); 
     } 
   }
-
-
 
  useEffect(()=>{
   GetSingleProject()
@@ -184,74 +224,68 @@ const ViewRequirement = () => {
                    </div>
                   })}
                 </div>
-              <div>
-                <textarea id="message" name='description' onChange={(event) => setFormData(event.target.value)} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 " placeholder="Write your project description here..." defaultValue={""} required/>
-              </div>
-              <div className="text-center mt-5">
-                <button type="submit" className="text-white text-end bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:ring-orange-300 font-medium rounded-full text-md px-20 py-3 mr-2 mb-2" onClick={!singleProjectData?null:singleProjectData.intershipType=="paid"?PaymentGatway:ApplySubmitData}> {!singleProjectData?null:singleProjectData.intershipType=="paid"?`Pay ${singleProjectData.price}$`:"Enroll Now" }</button>
-              </div>
+              <form onSubmit={!singleProjectData?null:singleProjectData.intershipType=="paid"?PaymentGatway:ApplySubmitData}>
+                <div>
+                  <textarea id="message" name='description' onChange={(event) => setFormData(event.target.value)} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 " placeholder="Write your project description here..." defaultValue={""} required/>
+                </div>
+                <div className="text-center mt-5">
+                  <button type="submit" className="text-white text-end bg-orange-600 hover:bg-orange-400 focus:ring-4 focus:ring-orange-300 font-medium rounded-full text-md px-20 py-3 mr-2 mb-2"> {!singleProjectData?null:singleProjectData.intershipType=="paid"?`Pay ${singleProjectData.price}$`:"Enroll Now" }</button>
+                </div>
+              </form>
             {/* </form> */}
             </section>
             </div>
             
         </div>
-       {isRendered?(
-           <>
-           <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
-             <div className="w-full max-w-md">
-               <div className="border-0 rounded-lg shadow-lg relative flex flex-col   bg-white outline-none focus:outline-none">
+      {isRendered ? (
+        <>
+          <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
+            <div className="w-full max-w-md">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col   bg-white outline-none focus:outline-none">
+                <div className="relative p-6 flex-auto">
+                  <div className="grid gap-6 mb-6 md:grid-cols-1">
+                    <div class="payment-form">
+                      <div class="px-2">
+                        <div className="mb-6">
+                          <div>
+                            <h1 className="text-2xl font-semibold">Payment</h1>
+                          </div>
+                        </div>
+                        <div className="mb-6">
+                          <h4>Choose payment method below</h4>
+                        </div>
+                        <div className="mb-6" onClick={PaymentWithRazorPay}>
+                          <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 ">
+                            <img className="mb-4" src={RazorPay} />
+                            <p className="font-medium text-gray-700 text-xs text-center">
+                              PAY WITH RAZORPAY </p>
+                          </a>
+                        </div>
+                        <div className="mb-6" onClick={PaymentWithStipe}>
+                          <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 ">
+                            <img className="mb-4" src={Stripe} />
+                            <p className="font-medium text-gray-700 text-xs text-center">
+                              PAY WITH STRIPE</p>
+                          </a>
+                        </div>
+                      </div>
+                    </div></div>
 
-                 <div className="relative p-6 flex-auto">
-      <div className="grid gap-6 mb-6 md:grid-cols-1">
-      <div class="payment-form">
-        <div class="px-2">
-  <div className="mb-6">
-    <div>
-      <h1 className="text-2xl font-semibold">Payment</h1>
-    </div>
-  </div>
-  <div className="mb-6">
-    <h4>Choose payment method below</h4>
-  </div>
-  <div className="mb-6" onClick={PaymentWithRazorPay}>
-    <a  className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 ">
-      <img className="mb-4" src={RazorPay} />
-      <p className="font-medium text-gray-700 text-xs text-center">
-        PAY WITH RAZORPAY </p>
-    </a>
-  </div>
-  <div className="mb-6" onClick={PaymentWithStipe}>
-    <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 ">
-      <img className="mb-4" src={Stripe} />
-      <p className="font-medium text-gray-700 text-xs text-center">
-        PAY WITH STRIPE</p>
-    </a>
-  </div>
-</div>
-        </div></div>
-
-                 </div>
-                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-                   <button
-                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
-                     type="button"
-                     onClick={() => setRendered(false)}
-                   >
-                     Close
-                   </button>
-                   {/* <button
-                     className="text-white bg-yellow-500 active:bg-yellow-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                     type="button"
-                     onClick={() => setRendered(false)}
-                   >
-                     Submit
-                   </button> */}
-                 </div>
-               </div>
-             </div>
-           </div>
-         </>
-        ):null} 
+                </div>
+                <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                    type="button"
+                    onClick={() => setRendered(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null} 
     </>
   )
 }

@@ -7,7 +7,7 @@ import UploadProjectComponents from '../../../Components/ComanRegisterComponents
 
 const UploadProject = () => {
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({ companyId: "", mentorId: "", title: "", description: "", intershipType: "", price:'', weeks:'', endDate:'', startDate:''})
+  const [formData, setFormData] = useState({ companyId: "", mentorId: "", title: "", description: "", intershipType: "", price:'', weeks:'', endDate:'', startDate:'',number_of_opening: "", meetingLink: ""})
   const [categoryData, setCategoryData] = useState()
   const [newCategoryData, setNewCategoryData] = useState()
   const [subCategoryData, setSubCategoryData] = useState([])
@@ -72,7 +72,7 @@ const UploadProject = () => {
     try {
       const resp = await authFetch.post('/admin/intership', {mentorId:formData.mentorId, CompanyId:formData.companyId, title:formData.title,
         description:formData.description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
-        price:formData.price, tags:subCategoryData
+        price:formData.price, tags:subCategoryData,number_of_opening:formData.number_of_opening, meetingLink:formData.meetingLink,
       });
       ToastSucess(resp.data.message)
       setTimeout(() => {

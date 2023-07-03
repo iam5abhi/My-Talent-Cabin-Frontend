@@ -10,6 +10,7 @@ import jwt_decode from "jwt-decode";
 import { authFetch } from '../../../Middleware/axios/Interceptors';
 import { ToastError } from '../../../features/DisplayMessage';
 import { ToastContainer } from 'react-toastify';
+import Certificate from '../../../Components/Student/Profile/Certificate/Certificate';
 
 const ViewProfile = () => {
   const token = window.localStorage.getItem('token')
@@ -68,7 +69,10 @@ const ViewProfile = () => {
       {/*------------------------------------------------------------ROW2*/}
       {/*------------------------------------------------------------ROW3*/}
       <div className="container w-11/15 mx-auto p-4 mt-4 border border-slate-300 bg-white rounded "> 
-      <Experience_Certificate data={getData?getData.experience:null} ProfileSubmit={ProfileSubmit} />
+        <Experience_Certificate data={getData?getData.experience:null} ProfileSubmit={ProfileSubmit} />
+      </div>
+      <div className="container w-11/15 mx-auto p-4 mt-4 border border-slate-300 bg-white rounded "> 
+        <Certificate data={getData?getData:null} />
       </div>
   </div>
     {/* <!-----------------------------------Experience--> */}

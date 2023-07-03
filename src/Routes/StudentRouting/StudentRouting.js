@@ -9,6 +9,8 @@ import ViewProfile from '../../Pages/Student/profile/ViewProfile';
 import ChangePassword from '../../Pages/Change-Password/ChangePassword';
 import Requirement from '../../Pages/Student/Requirement/Requirement';
 import ViewRequirement from '../../Pages/Student/Requirement/ViewRequirement';
+import PaymentSuccess from '../../Pages/Student/Payment/PaymentSuccess';
+import PaymentCancel from '../../Pages/Student/Payment/PaymentCancel';
 
 const StudentRouting = () => {
 
@@ -21,9 +23,15 @@ const StudentRouting = () => {
           path: 'profile',
           component: ViewProfile,
       },{
-        path: 'change-password',
-        component: ChangePassword,
-    }, 
+          path: 'change-password',
+          component: ChangePassword,
+      },{
+          path: 'payment-success',
+          component: PaymentSuccess,
+      },{
+        path: 'payment-failed',
+        component: PaymentCancel,
+    },  
     ]
 
   return (
