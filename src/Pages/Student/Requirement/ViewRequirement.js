@@ -43,7 +43,7 @@ const ViewRequirement = () => {
       }, {});
       setSingleProjectData(project.data)
     } catch (error) {
-      console.log(error)
+      ToastError(error)
     }
   }
 
@@ -73,14 +73,14 @@ const ViewRequirement = () => {
         );
     
         if (!res) {
-          alert('Razorpay SDK failed to load. Are you online?');
+          ToastError('Razorpay SDK failed to load. Are you online?');
           return;
         }
     
         const result = await authFetch.patch(`/student/paid-internship-with-razorpay/${id}`, {projectUserdesciption:formData});
     
         if (!result) {
-          alert('Server error. Are you online?');
+          ToastError('Server error. Are you online?');
           return;
         }
         const { amount, id: order_id, currency } = result.data;
@@ -114,10 +114,10 @@ const ViewRequirement = () => {
             contact: user.phoneNumber,
           },
           notes: {
-            address: 'A306 bestech business tower sector 66 sas nagar mohali',
+            address:'A306 bestech business tower sector 66 sas nagar mohali',
           },
           theme: {
-            color: '#61fbae',
+            color:'#61fbae',
           },
         };
     
@@ -133,7 +133,7 @@ const ViewRequirement = () => {
       sessionId: response.data.id, 
     }); 
     if (result.error) { 
-      console.log(result.error); 
+      ToastError(result.error); 
     } 
   }
 
@@ -151,7 +151,7 @@ const ViewRequirement = () => {
         <div className="flex min-h-full items-center justify-center  px-4 sm:px-6 lg:px-8 ">
             <div className="w-full  space-y-8  rounded-lg px-5 py-5 ">
             <section className="border border-gray-200 rounded-lg px-4 py-5">
-                <div className="grid grid-cols-2 gap-20  ">
+                <div className="grid grid-cols-2 gap-20">
                 <div>
                     <h2 className=" text-start text-3xl font-bold tracking-tight text-gray-900">{!singleProjectData?<Breathing width={800} height={100} />:singleProjectData.title.toUpperCase()}</h2>
                 </div>
@@ -235,7 +235,6 @@ const ViewRequirement = () => {
             {/* </form> */}
             </section>
             </div>
-            
         </div>
       {isRendered ? (
         <>
@@ -270,7 +269,6 @@ const ViewRequirement = () => {
                         </div>
                       </div>
                     </div></div>
-
                 </div>
                 <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                   <button

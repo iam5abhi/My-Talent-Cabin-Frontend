@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Navbar,
   MobileNav,
@@ -11,6 +11,7 @@ import {
   MenuItem,
   Avatar,
   IconButton,
+  button,
 } from "@material-tailwind/react";
 import {
   CubeTransparentIcon,
@@ -23,6 +24,9 @@ import {
   Bars2Icon,
   HomeIcon
 } from "@heroicons/react/24/outline";
+import jwtDecode from "jwt-decode";
+import { Token } from "../../features/Token";
+import { ToastError } from "../../features/DisplayMessage";
 
 
 
@@ -31,39 +35,58 @@ import {
 
 
 // profile menu component
-const profileMenuItems = [
-  {
-    label: "My Profile",
-    to: '/auth/student/profile',
-    icon: UserCircleIcon,
-  },
-  {
-    label: "Edit Profile",
-    to: '/auth/student/edit-profile',
-    icon: Cog6ToothIcon,
-  },
-  {
-    label: "Change Password",
-    to: '/auth/student/change-password',
-    icon: EyeIcon,
-  },
-  {
-    label: "Logout",
-    icon: PowerIcon,
-    onClick:"LogoutHandler"
-  },
-];
+
 
 function ProfileMenu() {
+  const navigate = useNavigate()
+  const [userId,setUserId]=useState()
+
+  const profileMenuItems = [
+    {
+      label: "My Profile",
+      to: `/auth/student/view-profile/${userId}`,
+      icon: UserCircleIcon,
+    },
+    {
+      label: "Edit Profile",
+      to: '/auth/student/profile',
+      icon: Cog6ToothIcon,
+    },
+    {
+      label: "Change Password",
+      to: '/auth/student/change-password',
+      icon: EyeIcon,
+    },
+    {
+      label: "Logout",
+      icon: PowerIcon,
+    },
+  ];
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
 
   const handleLogout = () => {
     // Perform logout actions here
     window.localStorage.removeItem('token');
+    setTimeout(() => {
+      ToastError('logout SuccessFully');
+      navigate('/login')
+  }, 1000);
   };
 
-
+  // const LogoutHandler = () => {
+  //   localStorage.clear()
+  //   setTimeout(() => {
+  //       ToastError('logout SuccessFully');
+  //       navigate('/login')
+  //   }, 1000);
+  // }
+  React.useEffect(()=>{
+    if(Token()){
+      let {user} =jwtDecode(Token())
+      setUserId(user._id)
+    }
+  },[Token()])
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -118,9 +141,9 @@ function ProfileMenu() {
                 strokeWidth: 2,
               })}
               <Typography
-                as={NavLink}
-                to={to}
-                // onClick={fn}
+                as={isLastItem ? null : NavLink}
+                to={isLastItem ? null : to}
+                onClick={isLastItem ? handleLogout : null}
                 variant="small"
                 className="font-normal"
                 color={isLastItem ? "red" : "inherit"}

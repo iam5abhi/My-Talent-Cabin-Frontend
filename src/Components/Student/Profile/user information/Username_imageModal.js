@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ToastError, ToastSucess } from '../../../../features/DisplayMessage';
 import { authFetch } from '../../../../Middleware/axios/Interceptors';
 
-export default function Username_imageModal({open,setOpen,ProfileSubmit}) {
+function Username_imageModal({open,setOpen,ProfileSubmit}) {
   const cancelButtonRef = useRef(null)
   const [location,setLocation]=useState()
 
@@ -80,3 +80,4 @@ export default function Username_imageModal({open,setOpen,ProfileSubmit}) {
     </Transition.Root>
   )
 }
+export default React.memo(Username_imageModal)

@@ -11,27 +11,27 @@ import Requirement from '../../Pages/Student/Requirement/Requirement';
 import ViewRequirement from '../../Pages/Student/Requirement/ViewRequirement';
 import PaymentSuccess from '../../Pages/Student/Payment/PaymentSuccess';
 import PaymentCancel from '../../Pages/Student/Payment/PaymentCancel';
+import Profile from '../../Pages/Student/profile/Profile';
 
 const StudentRouting = () => {
 
     const Student = [
         {
-            path: '/',
-            component: StudentHome,
-        },
-        {
+          path: '/',
+          component: StudentHome,
+        },{
           path: 'profile',
           component: ViewProfile,
-      },{
+        },{
           path: 'change-password',
           component: ChangePassword,
-      },{
+        },{
           path: 'payment-success',
           component: PaymentSuccess,
-      },{
-        path: 'payment-failed',
-        component: PaymentCancel,
-    },  
+        },{
+          path: 'payment-failed',
+          component: PaymentCancel,
+        }  
     ]
 
   return (
@@ -46,6 +46,8 @@ const StudentRouting = () => {
                 <PrivateRoute> <route.component/> </PrivateRoute> </React.Suspense>}/>
               })
             }
+            <Route path="view-profile/:id" element={<React.Suspense fallback={<><Breathing width={1200} height={1000} />
+            </>}><Profile /></React.Suspense>}/>
             <Route path="internship" element={<React.Suspense fallback={<><Breathing width={1200} height={1000} />
             </>}><Requirement /></React.Suspense>}/>
             <Route path="view-internship/:id" element={<React.Suspense fallback={<><Breathing width={1200} height={1000} />
