@@ -1,17 +1,18 @@
 import React,{useState} from 'react';
-import { authFetch } from '../../../Middleware/axios/Interceptors';
-import { ToastError } from '../../../features/DisplayMessage';
+import { authFetch } from '../../Middleware/axios/Interceptors';
+import { ToastError } from '../../features/DisplayMessage';
 import { useParams } from 'react-router-dom';
-import { createImageFromInitials, getRandomColor } from '../../../features/ImageGenerate';
+import { createImageFromInitials, getRandomColor } from '../../features/ImageGenerate';
 import { Breathing } from 'react-shimmer';
 
-const Profile = () => {
+
+const ViewProfile = () => {
     const {id} = useParams()
     const [profileData,setProfileData]=useState()
 
     const ProfileSubmit =async()=> {
         try {
-        const res = await authFetch(`/student/${id}`);
+        const res = await authFetch(`/mentor/${id}`);
         const profileData = res.data.reduce((acc, curr) => {
         acc["data"] = curr;
         return acc;
@@ -23,8 +24,9 @@ const Profile = () => {
     React.useEffect(()=>{
         ProfileSubmit();
     },[])
+
     return (
-    <>
+        <>
     <div>
         {/*------------------------profile*/}
         <div className="container w-11/15 mx-auto px-4  mt-4 border border-slate-300 bg-white rounded ">
@@ -114,41 +116,6 @@ const Profile = () => {
                 <div className="col-span-2 text-sm font-medium text-slate-600 ">
                     <div className="grid grid-cols-2 gap-4 bg-slate-100">
                         <div>
-                            <h5 className="p-2 font-medium leading-tight text-xl mt-0 mb-2 text-black">Education</h5>
-                        </div>
-                    </div>
-                    <hr />
-                    <div className="ml-2 p-4 grid grid-cols-1 gap-2">
-                        <div>
-                        {!profileData?null:
-                            profileData.education.map((educa)=>{
-                                return(
-                                    <div className="grid grid-cols-5 gap-4">
-                                    <div className="col-span-4 ...">
-                                        <p className="text-black text-base">{educa.degreeName}</p>
-                                        <p className="font-normal text-blue-800 text-base">{educa.collegeName}</p>
-                                        <p className="font-normal text-black text-slate-600"><i className="fa-solid fa-calendar-days" /> {educa.startDate}
-                                            - {educa.endDate}</p>
-                                    </div>
-                                </div>
-                                )
-                            })}
-                            <br />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <br />
-            <br />
-        </div>
-        {/*------------------------------------------------------------ROW2*/}
-        {/*------------------------------------------------------------ROW3*/}
-        <div className="container w-11/15 mx-auto p-4 mt-4 border border-slate-300 bg-white rounded ">
-            <div className="grid grid-cols-1 gap-6">
-                <div className="text-sm font-medium text-slate-600 ">
-                    <div className="grid grid-cols-2 gap-4 bg-slate-100">
-                        <div>
                             <h5 className="p-2 font-medium leading-tight text-xl mt-0 mb-2 text-black">Experience</h5>
                         </div>
                     </div>
@@ -174,11 +141,13 @@ const Profile = () => {
                 </div>
             </div>
             <hr />
-            {/*------------------------------------------------------------ROW3*/}
+            <br />
+            <br />
         </div>
+        {/*------------------------------------------------------------ROW2*/}
     </div>
     </>
-    )
+  )
 }
 
-export default Profile;
+export default ViewProfile

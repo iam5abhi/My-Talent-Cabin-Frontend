@@ -10,6 +10,7 @@ import MentorPrivateRoute from '../../Middleware/Private Route/MentorPrivateRout
 import UploadInternship from '../../Pages/Mentor/Internship/UploadInternship';
 import Internship from '../../Pages/Mentor/Internship/Internship';
 import EditInternship from '../../Pages/Mentor/Internship/EditInternship';
+import ViewProfile from '../../Pages/Mentor/ViewProfile';
 
 export const MentorContext= createContext()
 const MentorRouting = () => {
@@ -46,6 +47,8 @@ const MentorRouting = () => {
                 <MentorPrivateRoute> <route.component/> </MentorPrivateRoute> </React.Suspense>}/>
               })
             }
+            <Route path="view-profile/:id" element={<React.Suspense fallback={<><Breathing width={1200} height={1000} />
+            </>}><ViewProfile /></React.Suspense>}/>
         </Routes>
         </MentorContext.Provider>
     </>

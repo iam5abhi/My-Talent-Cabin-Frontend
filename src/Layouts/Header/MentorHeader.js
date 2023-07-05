@@ -24,34 +24,45 @@ import {
   HomeIcon
 } from "@heroicons/react/24/outline";
 import { MentorContext } from "../../Routes/MentorRouting/MentorRouting";
+import { MentorToken } from "../../features/Token";
+import jwtDecode from "jwt-decode";
 
 // profile menu component
-const profileMenuItems = [
-  {
-    label: "My Profile",
-    to: '/auth/mentor/profile',
-    icon: UserCircleIcon,
-  },
-  {
-    label: "Edit Profile",
-    to: '/auth/mentor/edit-profile',
-    icon: Cog6ToothIcon,
-  },
-  {
-    label: "Change Password",
-    to: '/auth/mentor/change-password',
-    icon: EyeIcon,
-  },
-  {
-    label: "Logout",
-    icon: PowerIcon,
-  },
-];
+
 
 function ProfileMenu() {
   const username = useContext(MentorContext)
+  const [userId,setUserId]=React.useState()
+  const profileMenuItems = [
+    {
+      label: "My Profile",
+      to: `/auth/mentor/view-profile/${userId}`,
+      icon: UserCircleIcon,
+    },
+    {
+      label: "Edit Profile",
+      to: '/auth/mentor/profile',
+      icon: Cog6ToothIcon,
+    },
+    {
+      label: "Change Password",
+      to: '/auth/mentor/change-password',
+      icon: EyeIcon,
+    },
+    {
+      label: "Logout",
+      icon: PowerIcon,
+    },
+  ];
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
+
+  React.useEffect(()=>{
+    if(MentorToken()){
+      let {user} =jwtDecode(MentorToken())
+      setUserId(user._id)
+    }
+  },[MentorToken()])
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
