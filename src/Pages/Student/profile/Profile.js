@@ -11,7 +11,7 @@ const Profile = () => {
 
     const ProfileSubmit =async()=> {
         try {
-        const res = await authFetch(`/student/${id}`);
+        const res = await authFetch(`/student/user-profile/${id}`);
         const profileData = res.data.reduce((acc, curr) => {
         acc["data"] = curr;
         return acc;
