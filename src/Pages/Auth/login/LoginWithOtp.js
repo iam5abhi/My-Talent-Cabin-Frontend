@@ -22,7 +22,7 @@ const LoginWithOtp = () =>{
       setFormData("")
       ToastSucess(res.data.message)
       setTimeout(() => {
-        navigate('/login-withotp')
+        navigate('/login')
       }, 2000);
     } catch (error) {
       ToastError(error.data.message)

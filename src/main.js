@@ -22,8 +22,8 @@ const Main = () => {
       <Routes>
         <Route path="/" element={< Home />} />
         <Route path='/register' element={< Register />} />
-        <Route path="login" element={< Login />} />
-        <Route path="login-withotp" element={< LoginWithOtp />} />
+        {/* <Route path="login" element={< Login />} /> */}
+        <Route path="login" element={< LoginWithOtp />} /> {/* path name "login-withotp" */} 
         <Route path="/change-password" element={< ChangePassword />} />
         <Route path="/auth/admin/login" element={<AdminLogin />} />
         <Route path='/company-register' element={< CompanyRegister />} />
