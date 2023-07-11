@@ -19,7 +19,6 @@ const ViewRequirement = () => {
   const [formData,setFormData]=useState()
   const [isRendered, setRendered] = useState(false);
 
-  
   const DescriptionHandle =()=>{
     let description =singleProjectData.description.split(".")
         description.pop()
@@ -168,7 +167,7 @@ const ViewRequirement = () => {
                 <div>
                   <h3 className='text-start text-2xl font-bold tracking-tight text-gray-900 mb-6 underline'>Project Description</h3>  
                 {!description?<Breathing width={1200} height={1000} />:description.map((data,index)=>{
-                    return <p key={index+1} className="break-word mt-2 mb-2 max-w-screen-md text-sm text-gray-600 leading-6">{index+1}. {data} </p>
+                    return <><p key={index+1} className="break-word mt-2 mb-2 max-w-screen-md text-sm text-gray-600 leading-6" dangerouslySetInnerHTML={{ __html: data }} /></>
                 })}
                 </div>
                 <br/>

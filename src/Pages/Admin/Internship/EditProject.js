@@ -9,13 +9,14 @@ import EditProjectComponents from '../../../Components/ComanRegisterComponents/E
 const EditProject = () => {
   const navigate = useNavigate()
   const {id} = useParams()
-  const [formData, setFormData] = useState({ mentorId: "", companyId: "", title: "", description: "", intershipType: "",price:'',weeks:''})
+  const [formData, setFormData] = useState({ mentorId: "", companyId: "", title: "", intershipType: "",price:'',weeks:''})
   const [categoryData, setCategoryData] = useState()
   const [newCategoryData, setNewCategoryData] = useState()
   const [subCategoryData, setSubCategoryData] = useState([])
   const [keyword, setKeyword] = useState();
   const [companyData, setCompanyData] = useState()
   const [mentorData, setMentorData] = useState()
+  const [description,setDescription]= useState('')
 
   const UpdateKeyword = (e) => {
     const filtered = categoryData.filter((data) => {
@@ -72,7 +73,7 @@ const EditProject = () => {
   const FormSubmitHandler = async () => {
     try {
       const res = await authFetch.patch(`/admin/intership/${id}`, {mentorId:formData.mentorId,CompanyId:formData.companyId, title:formData.title,
-        description:formData.description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
+        description:description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
         price:formData.price, tags:subCategoryData
       });
       ToastSucess("Edit Successfully")
@@ -85,7 +86,8 @@ const EditProject = () => {
   const GetInternshipData = async () => {
       try {
       const resp = await authFetch(`/admin/intership/${id}`);
-        setFormData({companyId:resp.data.CompanyId._id, title:resp.data.title, description:resp.data.description, intershipType:resp.data.intershipType,price:resp.data.price,weeks:resp.data.intershipWeek,mentorId:resp.data.mentorId._id,})
+        setFormData({companyId:resp.data.CompanyId._id, title:resp.data.title, intershipType:resp.data.intershipType,price:resp.data.price,weeks:resp.data.intershipWeek,mentorId:resp.data.mentorId._id,})
+        setDescription(resp.data.description)
         let data = resp.data.tags.map(data=>{ return {id:data._id._id,name:data._id.name}} )
         setSubCategoryData(data)          
       } catch (error) { ToastError(error.data.message) }
@@ -99,7 +101,7 @@ const EditProject = () => {
   }, [])
   return (
     <>
-      <EditProjectComponents TdClick={TdClick} RemoveTags={RemoveTags} data={{FormOnChangeHandler,FormSubmitHandler,formData,subCategoryData,keyword,UpdateKeyword,newCategoryData,companyData,mentorData}}/>
+      <EditProjectComponents TdClick={TdClick} RemoveTags={RemoveTags} data={{FormOnChangeHandler,FormSubmitHandler,formData,subCategoryData,keyword,UpdateKeyword,newCategoryData,companyData,mentorData,description,setDescription}}/>
       <ToastContainer />
     </>
   )

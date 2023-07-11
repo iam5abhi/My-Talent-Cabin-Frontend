@@ -7,15 +7,16 @@ import UploadProjectComponents from '../../../Components/ComanRegisterComponents
 
 const UploadProject = () => {
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({ companyId: "", mentorId: "", title: "", description: "", intershipType: "", price:'', weeks:'', endDate:'', startDate:'',number_of_opening: "", meetingLink: ""})
+  const [formData, setFormData] = useState({ companyId: "", mentorId: "", title: "", intershipType: "", price:'', weeks:'', endDate:'', startDate:'',number_of_opening: "", meetingLink: ""})
   const [categoryData, setCategoryData] = useState()
   const [newCategoryData, setNewCategoryData] = useState()
   const [subCategoryData, setSubCategoryData] = useState([])
   const [keyword, setKeyword] = useState();
   const [companyData, setCompanyData] = useState()
   const [mentorData, setMentorData] = useState()
+  const [description,setDescription]= useState('') 
 
-  console.log(formData,"formData")
+  console.log(description,"description")
   const UpdateKeyword = (e) => {
     const filtered = categoryData.filter((data) => {
       return data.name.toLowerCase().includes(e.target.value.toLowerCase());
@@ -71,7 +72,7 @@ const UploadProject = () => {
   const FormSubmitHandler = async () => {
     try {
       const resp = await authFetch.post('/admin/intership', {mentorId:formData.mentorId, CompanyId:formData.companyId, title:formData.title,
-        description:formData.description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
+        description:description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
         price:formData.price, tags:subCategoryData,number_of_opening:formData.number_of_opening, meetingLink:formData.meetingLink,
       });
       ToastSucess(resp.data.message)
@@ -88,7 +89,7 @@ const UploadProject = () => {
   }, [])
   return (
     <>
-     <UploadProjectComponents TdClick={TdClick} RemoveTags={RemoveTags} data={{FormOnChangeHandler,FormSubmitHandler,formData,subCategoryData,keyword,UpdateKeyword,newCategoryData,companyData,mentorData}} />
+     <UploadProjectComponents TdClick={TdClick} RemoveTags={RemoveTags} data={{FormOnChangeHandler,FormSubmitHandler,formData,subCategoryData,keyword,UpdateKeyword,newCategoryData,companyData,mentorData,description,setDescription}} />
     </>
   )
 }

@@ -9,11 +9,12 @@ import EditProjectComponents from '../../../Components/ComanRegisterComponents/E
 const EditInternship = () => {
   const navigate = useNavigate()
   const {id} = useParams()
-  const [formData, setFormData] = useState({ mentorId: "", companyId: "", title: "", description: "", intershipType: "",price:'',weeks:''})
+  const [formData, setFormData] = useState({ mentorId: "", companyId: "", title: "", intershipType: "",price:'',weeks:''})
   const [categoryData, setCategoryData] = useState()
   const [newCategoryData, setNewCategoryData] = useState()
   const [subCategoryData, setSubCategoryData] = useState([])
   const [keyword, setKeyword] = useState();
+  const [description,setDescription]= useState('')
 
   const UpdateKeyword = (e) => {
     const filtered = categoryData.filter((data) => {
@@ -55,7 +56,7 @@ const EditInternship = () => {
 
   const FormSubmitHandler = async () => {
     try {
-      const res = await authFetch.patch(`/mentor/intership/${id}`, { title:formData.title, description:formData.description, 
+      const res = await authFetch.patch(`/mentor/intership/${id}`, { title:formData.title, description:description, 
         intershipWeek:formData.weeks, intershipType:formData.intershipType, price:formData.price, tags:subCategoryData
       });
       ToastSucess("Edit Successfully")
@@ -68,8 +69,10 @@ const EditInternship = () => {
   const GetInternshipData = async () => {
       try {
       const resp = await authFetch(`/mentor/intership/${id}`);
-        setFormData({title:resp.data.title, description:resp.data.description, intershipType:resp.data.intershipType,price:resp.data.price,weeks:resp.data.intershipWeek})
+        setFormData({title:resp.data.title, intershipType:resp.data.intershipType,price:resp.data.price,weeks:resp.data.intershipWeek})
+        setDescription(resp.data.description)
         let data = resp.data.tags.map(data=>{ return {id:data._id._id,name:data._id.name}} )
+        console.log(data,"data")
         setSubCategoryData(data)          
       } catch (error) { ToastError(error.data.message) }
   }
@@ -80,7 +83,7 @@ const EditInternship = () => {
   }, [])
   return (
     <>
-      <EditProjectComponents RemoveTags={RemoveTags} TdClick={TdClick} data={{FormOnChangeHandler,FormSubmitHandler,formData,subCategoryData,keyword,UpdateKeyword,newCategoryData}}/>
+      <EditProjectComponents RemoveTags={RemoveTags} TdClick={TdClick} data={{FormOnChangeHandler,FormSubmitHandler,formData,subCategoryData,keyword,UpdateKeyword,newCategoryData,description,setDescription}}/>
       <ToastContainer />
     </>
   )

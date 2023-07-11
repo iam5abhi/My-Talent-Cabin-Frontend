@@ -7,11 +7,12 @@ import { ToastContainer } from 'react-toastify';
 
 const UploadInternship = () => {
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({ title: "", description: "", intershipType: "",price:'',weeks:''})
+  const [formData, setFormData] = useState({ title: "", intershipType: "",price:'',weeks:'',number_of_opening: "", meetingLink: ""})
   const [categoryData, setCategoryData] = useState()
   const [newCategoryData, setNewCategoryData] = useState()
   const [subCategoryData, setSubCategoryData] = useState([])
   const [keyword, setKeyword] = useState();
+  const [description,setDescription]= useState('') 
 
 
   const UpdateKeyword = (e) => {
@@ -54,9 +55,9 @@ const UploadInternship = () => {
 
   const FormSubmitHandler = async () => {
     try {
-      const resp = await authFetch.post('/company/intership', { title:formData.title,
-        description:formData.description, intershipWeek:formData.weeks, intershipType:formData.intershipType,
-        price:formData.price, tags:subCategoryData
+      const resp = await authFetch.post('/company/intership', { title:formData.title, description:description, 
+        intershipWeek:formData.weeks, intershipType:formData.intershipType, price:formData.price, 
+        tags:subCategoryData,number_of_opening: formData.number_of_opening, meetingLink: formData.meetingLink
       });
       ToastSucess(resp.data.message)
       setTimeout(() => {
@@ -70,7 +71,7 @@ const UploadInternship = () => {
   }, [])
   return (
     <>
-     <UploadProjectComponents TdClick={TdClick} RemoveTags={RemoveTags} data={{FormOnChangeHandler,FormSubmitHandler,formData,subCategoryData,keyword,UpdateKeyword,newCategoryData,}} />
+     <UploadProjectComponents TdClick={TdClick} RemoveTags={RemoveTags} data={{FormOnChangeHandler,FormSubmitHandler,formData,subCategoryData,keyword,UpdateKeyword,newCategoryData,description,setDescription}} />
     <ToastContainer />
     </>
   )

@@ -1,6 +1,8 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useLocation } from 'react-router-dom';
 import {endDate} from '../../features/DateCheck'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const UploadProjectComponents = ({ data, TdClick, RemoveTags }) => {
   const location = useLocation()
@@ -104,7 +106,7 @@ const UploadProjectComponents = ({ data, TdClick, RemoveTags }) => {
             <div>
               <label htmlFor="message" className="block mb-2 text-xl font-medium text-gray-900">Project Description
               </label>
-              <textarea id="message" onChange={data.FormOnChangeHandler} name='description' rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 " placeholder="Write your project description here..." defaultValue={""} />
+              <ReactQuill theme="snow" value={data.description} onChange={data.setDescription} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 " placeholder="Write your project description here..."/>      
             </div>
             <br />
             {location.pathname == '/auth/mentor/upload-internship' ? null : location.pathname == '/auth/company/upload-internship' ? null : <>
