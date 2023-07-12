@@ -12,7 +12,7 @@ const ViewProfile = () => {
 
     const ProfileSubmit =async()=> {
         try {
-        const res = await authFetch(`/mentor/${id}`);
+        const res = await authFetch(`/mentor/view-profile/${id}`);
         const profileData = res.data.reduce((acc, curr) => {
         acc["data"] = curr;
         return acc;

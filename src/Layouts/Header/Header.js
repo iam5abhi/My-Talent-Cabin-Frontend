@@ -166,11 +166,6 @@ const navListItems = [
     icon: HomeIcon,
   },
   {
-    label: "Students",
-    to: "/auth/student/students",
-    icon: CubeTransparentIcon,
-  },
-  {
       label: "Internship",
       to: "/auth/student/internship",
       icon: CodeBracketSquareIcon,
