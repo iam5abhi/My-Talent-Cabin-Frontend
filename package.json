@@ -6,6 +6,7 @@
     "node": "16.14.2"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "@react-pdf/renderer": "^3.1.9",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.1",
@@ -39,7 +40,6 @@
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "react-search-box": "^2.3.0",
-    
     "react-select": "^5.7.0",
     "react-shimmer": "^3.2.0",
     "react-simple-star-rating": "^5.1.7",
