@@ -6,13 +6,6 @@
     "node": "16.14.2"
   },
   "dependencies": {
-    "@emotion/core": "^11.0.0",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@headlessui/react": "^1.7.7",
-    "@heroicons/react": "^2.0.16",
-    "@material-tailwind/react": "^2.0.1",
-    "@mui/material": "^5.13.5",
     "@react-pdf/renderer": "^3.1.9",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.1",
@@ -38,8 +31,6 @@
     "react-data-table-component": "^7.5.3",
     "react-dom": "^18.2.0",
     "react-firework": "^1.0.1",
-    "react-google-button": "^0.7.2",
-    "react-google-login-component": "^0.9.3",
     "react-leaflet": "^4.2.1",
     "react-particles": "^2.9.3",
     "react-player": "^2.12.0",
