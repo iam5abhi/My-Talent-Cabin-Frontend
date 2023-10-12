@@ -86,17 +86,24 @@ return (
         </div>
       </div>
       <div>
-        <button type="submit" disabled={btndisabled} className="group relative flex w-full justify-center rounded-md border border-transparent bg-black py-2 px-4 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-black-500 focus:ring-offset-2">
-         {isLoading ? "Loading..." : <> Login </>}
+        <button
+          type="submit"
+          disabled={btndisabled}
+          className="group relative flex w-full justify-center rounded-md border border-transparent bg-black py-2 px-4 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
+        >
+          {isLoading ? "Loading..." : <>Login</>}
         </button>
         <NavLink to="/login-withotp" className="flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium">
           Login With OTP
         </NavLink>
-        <ToastContainer />
+        {isLoading ? null : <ToastContainer />}
       </div>
       <div className="flex items-center justify-center">
         <div className="text-sm">
-          Don't have account?&nbsp;<NavLink to="/register" className="font-medium text-black hover:text-gray-600">Register</NavLink>
+          Don't have an account?&nbsp;
+          <NavLink to="/register" className="font-medium text-black hover:text-gray-600">
+            Register
+          </NavLink>
         </div>
       </div>
     </Form>
