@@ -4,11 +4,12 @@ import './index.css';
 import 'leaflet/dist/leaflet.css'
 import App from './App';
 import 'react-toastify/dist/ReactToastify.css';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, createBrowserRouter } from 'react-router-dom';
 
+const router = createBrowserRouter([{ path: "/", element: <div>Test page</div> }]);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
+  <BrowserRouter router={router}>
     <App />
   </BrowserRouter>
 );

@@ -1,61 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import Razorpay from 'razorpay';
-import assert from 'assert';
+// import React, { useState } from 'react';
+// import { useRazorpay } from 'react-razorpay';
+// // import './PaymentForm.css'; // Import your CSS file if needed
 
-const PaymentForm = () => {
-  const [payment, setPayment] = useState(null);
+// const PaymentForm = () => {
+//   const [payment, setPayment] = useState(null);
+//   const razorpay = useRazorpay();
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    script.onload = initializePayment;
-    document.body.appendChild(script);
+//   const initializePayment = async () => {
+//     try {
+//       const response = await razorpay.createPayment({
+//         amount: 1000, // Amount in paise (e.g., 1000 paise = ₹10)
+//         currency: 'INR',
+//         receipt: 'order_receipt',
+//         payment_capture: 1,
+//         key: 'YOUR_API_KEY', // Replace with your Razorpay API key
+//         order_id: '1', // Replace with your order ID (optional)
+//       });
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+//       setPayment(response);
+//     } catch (error) {
+//       console.error('Error initializing payment:', error);
+//     }
+//   };
 
-  const initializePayment = () => {
-    const options = {
-      key: 'YOUR_API_KEY', // Replace with your Razorpay API key
-      amount: 1000, // Amount in paise (e.g., 1000 paise = ₹10)
-      currency: 'INR',
-      name: 'Acme Corp', // Merchant name
-      description: 'Purchase Description',
-      image: 'https://your-logo-url.com/logo.png', // Merchant logo URL (optional)
-      handler: handlePaymentSuccess,
-      prefill: {
-        email: 'customer@example.com',
-        contact: '1234567890',
-      },
-      theme: {
-        color: '#F37254', // Set the desired theme color
-      },
-    };
+//   const handlePayment = async () => {
+//     if (payment) {
+//       try {
+//         await razorpay.open();
+//       } catch (error) {
+//         console.error('Error during payment:', error);
+//       }
+//     }
+//   };
 
-    const paymentObject = new Razorpay(options);
-    setPayment(paymentObject);
-  };
+//   return (
+//     <div className="payment-form">
+//       <h2>Payment Form</h2>
+//       <button onClick={initializePayment}>Initialize Payment</button>
+//       <button onClick={handlePayment} disabled={!payment}>
+//         Pay Now
+//       </button>
+//     </div>
+//   );
+// };
 
-  const handlePaymentSuccess = (response) => {
-    console.log('Payment Successful:', response);
-    // Perform necessary actions after successful payment
-  };
-
-  const handlePayment = () => {
-    if (payment) {
-      payment.open();
-    }
-  };
-
-  return (
-    <div>
-      <h2>Payment Form</h2>
-      <button onClick={handlePayment}>Pay Now</button>
-    </div>
-  );
-};
-
-export default PaymentForm;
+// export default PaymentForm;

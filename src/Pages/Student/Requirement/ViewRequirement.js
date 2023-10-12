@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react'
-import { authFetch } from '../../../Middleware/axios/intance'
-import { Breathing } from 'react-shimmer'
-import { useParams ,useNavigate } from 'react-router-dom'
-import {ToastError,ToastSucess} from '../../../features/DisplayMessage'
-import PaymentForm from '../../../TestHandler/PaymentForm'
+import React, { useState,useEffect } from 'react';
+import { authFetch } from '../../../Middleware/axios/intance';
+import { Breathing } from 'react-shimmer';
+import { useParams ,useNavigate } from 'react-router-dom';
+import {ToastError,ToastSucess} from '../../../features/DisplayMessage';
+// import PaymentForm from '../../../TestHandler/PaymentForm';
 
 
 
@@ -145,7 +145,7 @@ const ViewRequirement = () => {
             </section>
             </div>
         </div>
-        <PaymentForm />
+        {/* <PaymentForm /> */}
     </>
   )
 }

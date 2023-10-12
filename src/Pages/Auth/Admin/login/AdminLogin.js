@@ -6,6 +6,7 @@ import { authFetch } from '../../../../Middleware/axios/intance';
 import { useNavigate } from 'react-router-dom';
 import { ToastError, ToastSucess } from '../../../../features/DisplayMessage';
 import validationSchema from '../../login/loginValidation';
+import {encode as base64_encode} from 'base-64';
 
 
 const AdminLogin = () => {
@@ -40,8 +41,12 @@ const AdminLogin = () => {
                 initialValues={{ email: '', password: '' }}
                 validationSchema={validationSchema}
                 onSubmit={async (values) => {
+                  let encodedPassword = base64_encode(values.password);
                   try {
-                    const res = await authFetch.post('/admin/login', values);
+                    const res = await authFetch.post('/admin/login', {
+                      email:values.email,
+                      password:encodedPassword
+                    });
                     localStorage.setItem('admin-token', res.data.token, true)
                     ToastSucess(res.data.message)
                     setTimeout(() => {
